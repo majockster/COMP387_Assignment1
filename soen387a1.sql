@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2022 at 09:43 PM
+-- Generation Time: Sep 28, 2022 at 08:03 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -29,6 +29,7 @@ USE `soen387a1`;
 -- Table structure for table `administrator`
 --
 
+DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE `administrator` (
   `employmentID` int(11) NOT NULL,
   `personID` int(11) NOT NULL
@@ -40,6 +41,11 @@ CREATE TABLE `administrator` (
 --       `person` -> `personID`
 --
 
+--
+-- Truncate table before insert `administrator`
+--
+
+TRUNCATE TABLE `administrator`;
 --
 -- Dumping data for table `administrator`
 --
@@ -54,6 +60,7 @@ INSERT INTO `administrator` (`employmentID`, `personID`) VALUES
 -- Table structure for table `courses`
 --
 
+DROP TABLE IF EXISTS `courses`;
 CREATE TABLE `courses` (
   `courseID` int(11) NOT NULL,
   `courseCode` varchar(10) NOT NULL,
@@ -69,6 +76,11 @@ CREATE TABLE `courses` (
 --
 
 --
+-- Truncate table before insert `courses`
+--
+
+TRUNCATE TABLE `courses`;
+--
 -- Dumping data for table `courses`
 --
 
@@ -76,7 +88,11 @@ INSERT INTO `courses` (`courseID`, `courseCode`, `title`, `semester`, `instructo
 (1, 'SOEN 387', 'Web Programming', 'FALL 2022', 'Mr. Nice', '2022-09-26', '2022-12-29'),
 (2, 'COMP 345', 'Operating Systems', 'WINTER 2023', 'Dr. Doolittle', '2023-01-11', '2023-04-26'),
 (3, 'COMP 249', 'Introduction To Programming', 'FALL 2022', 'Mr. Gregory The Bestie', '2022-09-01', '2022-12-23'),
-(4, 'COMP 371', 'Computer Graphics', 'WINTER 2023', 'Ms. Danika Happy', '2023-01-11', '2023-04-29');
+(4, 'COMP 371', 'Computer Graphics', 'WINTER 2023', 'Ms. Danika Happy', '2023-01-11', '2023-04-29'),
+(5, 'COMP 471', 'Artificial Intelligence', 'FALL 2022', 'Mr. Vader', '2022-09-20', '2022-12-23'),
+(6, 'COMP 685', 'Security', 'FALL 2022', 'Q. Mannings', '2022-09-20', '2022-12-23'),
+(7, 'COMP 236', 'Introduction to code analysis', 'WINTER 2023', 'Bruce Banner', '2023-01-13', '2023-05-16'),
+(8, 'COMP 254', 'Introduction to server software', 'WINTER 2023', 'The Grinch', '2023-01-13', '2023-05-16');
 
 -- --------------------------------------------------------
 
@@ -84,6 +100,7 @@ INSERT INTO `courses` (`courseID`, `courseCode`, `title`, `semester`, `instructo
 -- Table structure for table `coursetimes`
 --
 
+DROP TABLE IF EXISTS `coursetimes`;
 CREATE TABLE `coursetimes` (
   `courseTimeID` int(11) NOT NULL,
   `courseID` int(11) NOT NULL,
@@ -98,6 +115,11 @@ CREATE TABLE `coursetimes` (
 --       `courses` -> `courseID`
 --
 
+--
+-- Truncate table before insert `coursetimes`
+--
+
+TRUNCATE TABLE `coursetimes`;
 --
 -- Dumping data for table `coursetimes`
 --
@@ -122,6 +144,7 @@ INSERT INTO `coursetimes` (`courseTimeID`, `courseID`, `startTime`, `endTime`, `
 -- Table structure for table `person`
 --
 
+DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
   `personID` int(11) NOT NULL,
   `firstName` varchar(250) NOT NULL,
@@ -138,11 +161,16 @@ CREATE TABLE `person` (
 --
 
 --
+-- Truncate table before insert `person`
+--
+
+TRUNCATE TABLE `person`;
+--
 -- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`personID`, `firstName`, `lastName`, `password`, `address`, `email`, `phoneNumber`, `dateOfBirth`) VALUES
-(1, 'Luke', 'Skywalker', 'test', '801 Somestreet', 'notmyfather@gmail.com', '15145861546', '1988-09-09'),
+(1, 'Luke', 'Skywalker', 'test', '801 Mos Eisley', 'notmyfather@gmail.com', '15145861546', '1988-09-09'),
 (2, 'Gerard', 'Lenorman', 'test', '29287 Des Cerisiers', 'noublispas@gmail.com', '15145362236', '1976-05-14'),
 (3, 'Rocky', 'Balboa', 'test', '999 Uppercut', 'therealchampion@gmail.com', '162256874541', '1980-01-12'),
 (4, 'Freddy', 'Kruger', 'test', '87 Elm Street', 'under_your_bed@gmail.com', '15142853649', '1974-03-25'),
@@ -154,6 +182,7 @@ INSERT INTO `person` (`personID`, `firstName`, `lastName`, `password`, `address`
 -- Table structure for table `registrations`
 --
 
+DROP TABLE IF EXISTS `registrations`;
 CREATE TABLE `registrations` (
   `registrationID` int(11) NOT NULL,
   `studentID` int(11) NOT NULL,
@@ -168,12 +197,18 @@ CREATE TABLE `registrations` (
 --       `student` -> `studentID`
 --
 
+--
+-- Truncate table before insert `registrations`
+--
+
+TRUNCATE TABLE `registrations`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `student`
 --
 
+DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `studentID` int(11) NOT NULL,
   `personID` int(11) NOT NULL
@@ -185,6 +220,11 @@ CREATE TABLE `student` (
 --       `person` -> `personID`
 --
 
+--
+-- Truncate table before insert `student`
+--
+
+TRUNCATE TABLE `student`;
 --
 -- Dumping data for table `student`
 --
@@ -229,7 +269,7 @@ ALTER TABLE `person`
 --
 ALTER TABLE `registrations`
   ADD PRIMARY KEY (`registrationID`),
-  ADD KEY `registrations_studentID_FK` (`studentID`),
+  ADD UNIQUE KEY `registrations_noDuplicate` (`studentID`,`courseID`) USING BTREE,
   ADD KEY `registrations_courseID_FK` (`courseID`);
 
 --
@@ -271,7 +311,7 @@ ALTER TABLE `person`
 -- AUTO_INCREMENT for table `registrations`
 --
 ALTER TABLE `registrations`
-  MODIFY `registrationID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `registrationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `student`

@@ -48,10 +48,17 @@
 					// Check if we tried to add a course
 					if ($_POST['action'] == 'Add') 
 					{
-						// We execute an add query before displaying the page.
-					    $registerCourse = "INSERT INTO Registrations(studentID, courseID) VALUES({$_COOKIE["user"]}, $courseId)";
+						// Verify business logic rules:
+							// A student may register in up to 5 courses per semester.
+						$registeredCourses = "SELECT Courses.CourseId, Courses.courseCode, Courses.title, Courses.semester, courses.instructor, courses.startDate, courses.endDate 
+						FROM Courses
+						INNER JOIN Registrations
+						ON Courses.courseID = Registrations.courseID
+						INNER JOIN Student
+						ON Registrations.studentID = Student.studentID
+						WHERE Student.studentID = {$_COOKIE["user"]}";
 
-						if ( !($addResult = mysqli_query( $database,$registerCourse)) ) 
+						if ( !($registeredListResult = mysqli_query($database,$registeredCourses)) ) 
 						{
 							print("Could not add the course! Please try again later. <br />");
 							print(mysqli_error($database));
@@ -59,8 +66,64 @@
 						}
 						else
 						{
-							print("<h2>Added course successfully!</h2>");
-						}
+							// Continuing with verifying max courses for student
+							if(mysqli_num_rows($registeredListResult) >= 5)
+							{
+								print("Could not add the course! You cannot register for more than 5 courses per semester. <br />");
+								print("<br />");
+							}
+							else
+							{
+								// Verify business logic rules:
+									// A student can add a course up to one week after the start of the semester
+								$courseDetail = "SELECT Courses.CourseId, courses.startDate, courses.endDate 
+									FROM Courses
+									WHERE Courses.CourseId = $courseId";
+								
+								if ( !($courseDetailResult = mysqli_query($database,$courseDetail)) ) 
+								{
+									print("Could not add the course! Please try again later. <br />");
+									print(mysqli_error($database));
+									print("<br />");
+								}
+								else
+								{
+									// Continuing with verifying that a student can only add a course up to one week after start of semester
+									$row = $courseDetailResult->fetch_assoc();
+									$startDate = $row["startDate"];
+									$todayDate = date("Y-m-d");
+
+									// Converting dates to compare them
+									$convertedStartDate = strtotime($startDate);
+									$convertedToday = strtotime($todayDate);
+									// Adds 7 days from the start date of the class
+									$convertedMaxAddDate = strtotime("+7 day", $convertedStartDate);
+
+									if($convertedToday > $convertedMaxAddDate)
+									{
+										// We are past 7 days since the start of the course (semester), so we can't add it.
+										print("Could not add the course, as it is past 1 week since the start of this course. Sorry! <br />");
+										print("<br />");
+									}
+									else
+									{
+										// We execute an add query before displaying the page.
+										$registerCourse = "INSERT INTO Registrations(studentID, courseID) VALUES({$_COOKIE["user"]}, $courseId)";
+
+										if ( !($addResult = mysqli_query($database,$registerCourse)) ) 
+										{
+											print("Could not add the course! Please try again later. <br />");
+											print(mysqli_error($database));
+											print("<br />");
+										}
+										else
+										{
+											print("<h2>Added course successfully!</h2>");
+										}
+									}
+								}
+							}
+						}						
 					}
 					// Check if we tried to drop a course
 					else if ($_POST['action'] == 'Drop') 
