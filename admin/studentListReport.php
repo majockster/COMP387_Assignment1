@@ -22,8 +22,6 @@
             border-style: inset
         }
     </style>
-    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="getSetStudentReport.js"></script> -->
 </head>
 
 <body>
@@ -59,7 +57,8 @@
         if (mysqli_num_rows($queryForGettingCoursesList) > 0) {
             print("<h2>List of all courses</h2><br />");
             print("<table> 
-                            <tr> 
+                            <tr>
+                            <th>Course ID</th> 
                             <th>Course Code</th>
                             <th>Title</th>
                             <th>Semester</th>
@@ -69,6 +68,7 @@
             // Loop over the rows returned, showing them in a table.
             while ($row = $queryForGettingCoursesList->fetch_assoc()) {
                 print("<tr>");
+                print("<td>{$row['courseId']}</td>");
                 print("<td>{$row['courseCode']}</td>");
                 print("<td>{$row['title']}</td>");
                 print("<td>{$row['semester']}</td>");
@@ -108,7 +108,7 @@
             print("<br />");
         } else {
             if (mysqli_num_rows($studentListFromClass) > 0) {
-                print("<h2>List of students in this class</h2><br />");
+                print("<h2>List of students in this class: {$courseId}</h2><br />");
                 print("<table> 
                                 <tr> 
                                 <th>Student ID</th>

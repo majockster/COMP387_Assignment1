@@ -104,7 +104,7 @@
             print("<br />");
         } else {
             if (mysqli_num_rows($studentListFromClass) > 0) {
-                print("<h2>List of classes enrolled for this student</h2><br />");
+                print("<h2>List of classes enrolled for student id: {$studentId}</h2><br />");
                 print("<table> 
                             <tr> 
                             <th>Course Code</th>
