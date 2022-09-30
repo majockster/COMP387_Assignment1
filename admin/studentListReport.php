@@ -22,8 +22,8 @@
             border-style: inset
         }
     </style>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="getSetStudentReport.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="getSetStudentReport.js"></script> -->
 </head>
 
 <body>
@@ -57,6 +57,7 @@
         die(mysqli_error($database) . "</body></html>");
     } else {
         if (mysqli_num_rows($queryForGettingCoursesList) > 0) {
+            print("<h2>List of all courses</h2><br />");
             print("<table> 
                             <tr> 
                             <th>Course Code</th>
@@ -83,7 +84,7 @@
             }
             print("</table><br>");
         } else {
-            print("<h3>There are no courses available for you.</h3>");
+            print("<h3>There are no courses.</h3>");
         }
     }
     if (
@@ -107,6 +108,7 @@
             print("<br />");
         } else {
             if (mysqli_num_rows($studentListFromClass) > 0) {
+                print("<h2>List of students in this class</h2><br />");
                 print("<table> 
                                 <tr> 
                                 <th>Student ID</th>
@@ -123,7 +125,7 @@
                 }
                 print("</table>");
             } else {
-                print("<h3>There are no courses available for you.</h3>");
+                print("<h3>There are no students enrolled in this class.</h3>");
             }
         }
     }
