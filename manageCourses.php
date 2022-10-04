@@ -42,21 +42,25 @@
 				 // Check if we clicked a button
 				 if (isset($_POST['action']) && 
 					isset($_POST['courseId']) &&
+					isset($_POST['semester']) &&
 					$_POST['action'] && 
-					$_POST['courseId']) 
+					$_POST['courseId'] &&
+					$_POST['semester'] ) 
 				 {
 					// Check if we tried to add a course
 					if ($_POST['action'] == 'Add') 
 					{
 						// Verify business logic rules:
-							// A student may register in up to 5 courses per semester.
-						$registeredCourses = "SELECT Courses.CourseId, Courses.courseCode, Courses.title, Courses.semester, courses.instructor, courses.startDate, courses.endDate 
+						// A student may register in up to 5 courses per semester.
+						// TODO check semester
+						$registeredCourses = "SELECT COUNT(Courses.CourseId) AS CoursesCount, Courses.semester, courses.startDate, courses.endDate 
 						FROM Courses
 						INNER JOIN Registrations
 						ON Courses.courseID = Registrations.courseID
 						INNER JOIN Student
 						ON Registrations.studentID = Student.studentID
-						WHERE Student.studentID = {$_COOKIE["user"]}";
+						WHERE Student.studentID = {$_COOKIE["user"]}
+                        GROUP BY Courses.semester";
 
 						if ( !($registeredListResult = mysqli_query($database,$registeredCourses)) ) 
 						{
@@ -67,12 +71,17 @@
 						else
 						{
 							// Continuing with verifying max courses for student
-							if(mysqli_num_rows($registeredListResult) >= 5)
+							$canAccess = true;
+							while ($row = $registeredListResult->fetch_assoc())
 							{
-								print("Could not add the course! You cannot register for more than 5 courses per semester. <br />");
-								print("<br />");
-							}
-							else
+								if($row["CoursesCount"] >= 5 && $row["semester"] == $_POST['semester'])
+								{
+									print("Could not add the course! You cannot register for more than 5 courses per semester. <br />");
+									print("<br />");
+									$canAccess = false;
+								}
+							} 
+							if($canAccess)
 							{
 								// Verify business logic rules:
 									// A student can add a course up to one week after the start of the semester
@@ -158,7 +167,8 @@
 				 ON Courses.courseID = Registrations.courseID
 				 INNER JOIN Student
 				 ON Registrations.studentID = Student.studentID
-				 WHERE Student.studentID = {$_COOKIE["user"]}";
+				 WHERE Student.studentID = {$_COOKIE["user"]}
+				 ORDER BY courseCode ASC";
 		
 		         // Query available courses
 		         if ( !($result = mysqli_query( $database,$selectAvailable)) ) 
@@ -194,6 +204,7 @@
 								<form method=\"post\" action=\"\">
 									<input type=\"submit\" name=\"action\" value=\"Add\"/>
 									<input type=\"hidden\" name=\"courseId\" value=\"{$row['CourseId']}\"/>
+									<input type=\"hidden\" name=\"semester\" value=\"{$row['semester']}\"/>
 								  </form>
 								</td>");
 							print("</tr>");
@@ -211,14 +222,15 @@
 				print("<h1>Drop a course</h1>");
 				// Select available courses to drop.
 				// Essentially, all courses that the student is registered to.
-				 $selectDroppable="
-				 SELECT Courses.CourseId, Courses.courseCode, Courses.title, Courses.semester, courses.instructor, courses.startDate, courses.endDate 
+				 $selectDroppable=" SELECT Courses.CourseId, Courses.courseCode, Courses.title, 
+				 Courses.semester, courses.instructor, courses.startDate, courses.endDate 
 				 FROM Courses
 				 INNER JOIN Registrations
 				 ON Courses.courseID = Registrations.courseID
 				 INNER JOIN Student
 				 ON Registrations.studentID = Student.studentID
-				 WHERE Student.studentID = {$_COOKIE["user"]}";
+				 WHERE Student.studentID = {$_COOKIE["user"]}
+				 ORDER BY courseCode ASC";
 		
 		         // Query registered courses
 		         if ( !($result = mysqli_query( $database,$selectDroppable)) ) 
@@ -254,6 +266,7 @@
 								<form method=\"post\" action=\"\">
 									<input type=\"submit\" name=\"action\" value=\"Drop\"/>
 									<input type=\"hidden\" name=\"courseId\" value=\"{$row['CourseId']}\"/>
+									<input type=\"hidden\" name=\"semester\" value=\"{$row['semester']}\"/>
 								  </form>
 								</td>");
 							print("</tr>");
