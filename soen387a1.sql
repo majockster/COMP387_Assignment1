@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2022 at 08:03 PM
+-- Generation Time: Oct 04, 2022 at 05:06 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -92,7 +92,10 @@ INSERT INTO `courses` (`courseID`, `courseCode`, `title`, `semester`, `instructo
 (5, 'COMP 471', 'Artificial Intelligence', 'FALL 2022', 'Mr. Vader', '2022-09-20', '2022-12-23'),
 (6, 'COMP 685', 'Security', 'FALL 2022', 'Q. Mannings', '2022-09-20', '2022-12-23'),
 (7, 'COMP 236', 'Introduction to code analysis', 'WINTER 2023', 'Bruce Banner', '2023-01-13', '2023-05-16'),
-(8, 'COMP 254', 'Introduction to server software', 'WINTER 2023', 'The Grinch', '2023-01-13', '2023-05-16');
+(8, 'COMP 254', 'Introduction to server software', 'WINTER 2023', 'The Grinch', '2023-01-13', '2023-05-16'),
+(9, 'COMP 432', 'Machine Learning', 'WINTER 2023', 'Mr. Bond', '2023-01-13', '2023-05-16'),
+(10, 'COMP 442', 'Compiler Design', 'WINTER 2023', 'Java GCC', '2023-01-13', '2023-05-16'),
+(11, 'COMP 451', 'Database Design', 'FALL 2022', 'Steve Jobs', '2022-10-03', '2022-12-23');
 
 -- --------------------------------------------------------
 
@@ -202,6 +205,18 @@ CREATE TABLE `registrations` (
 --
 
 TRUNCATE TABLE `registrations`;
+--
+-- Dumping data for table `registrations`
+--
+
+INSERT INTO `registrations` (`registrationID`, `studentID`, `courseID`) VALUES
+(28, 1, 2),
+(27, 1, 4),
+(24, 1, 7),
+(26, 1, 8),
+(30, 1, 9),
+(33, 1, 11);
+
 -- --------------------------------------------------------
 
 --
@@ -311,7 +326,7 @@ ALTER TABLE `person`
 -- AUTO_INCREMENT for table `registrations`
 --
 ALTER TABLE `registrations`
-  MODIFY `registrationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `registrationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `student`
