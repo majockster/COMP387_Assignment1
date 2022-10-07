@@ -107,10 +107,12 @@ DROP TABLE IF EXISTS `coursetimes`;
 CREATE TABLE `coursetimes` (
   `courseTimeID` int(11) NOT NULL,
   `courseID` int(11) NOT NULL,
-  `startTime` datetime NOT NULL,
-  `endTime` datetime NOT NULL,
-  `room` varchar(100) NOT NULL
-) ;
+  `startTime` time NOT NULL,
+  `endTime` time NOT NULL,
+  `day` varchar(10) NOT NULL,
+  `section` varchar(30) NOT NULL,
+  `room` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `coursetimes`:
@@ -127,19 +129,19 @@ TRUNCATE TABLE `coursetimes`;
 -- Dumping data for table `coursetimes`
 --
 
-INSERT INTO `coursetimes` (`courseTimeID`, `courseID`, `startTime`, `endTime`, `room`) VALUES
-(1, 3, '2022-09-26 12:30:00', '2022-09-26 14:30:00', 'H821'),
-(2, 3, '2022-10-03 12:30:00', '2022-10-03 14:30:00', 'H821'),
-(3, 3, '2022-10-10 12:30:00', '2022-10-10 14:30:00', 'H821'),
-(4, 2, '2022-09-27 14:30:00', '2022-09-27 17:30:00', 'H420'),
-(5, 2, '2022-10-04 14:30:00', '2022-10-04 17:30:00', 'H420'),
-(6, 2, '2022-10-11 14:30:00', '2022-10-11 17:30:00', 'H420'),
-(7, 4, '2022-09-28 17:30:00', '2022-09-28 20:15:00', 'JMSB 3-210'),
-(8, 4, '2022-10-05 17:30:00', '2022-10-05 20:15:00', 'JMSB 3-210'),
-(9, 4, '2022-10-12 17:30:00', '2022-10-12 20:15:00', 'JMSB 3-210'),
-(10, 1, '2022-09-29 08:45:00', '2022-09-29 10:45:00', 'H817'),
-(11, 1, '2022-10-06 08:45:00', '2022-10-06 10:45:00', 'H817'),
-(12, 1, '2022-10-13 08:45:00', '2022-10-13 10:45:00', 'H817');
+INSERT INTO `coursetimes` (`courseTimeID`, `courseID`, `startTime`, `endTime`, `day`, `section`, `room`) VALUES
+(1, 3, '12:30:00', '14:30:00', 'monday', 'FAAA', 'H821'),
+(2, 3, '12:30:00', '14:30:00', 'monday', 'FAAA', 'H821'),
+(3, 3, '12:30:00', '14:30:00', 'monday', 'FAAA', 'H821'),
+(4, 2, '14:30:00', '17:30:00', 'monday', 'FAAA', 'H420'),
+(5, 2, '14:30:00', '17:30:00', 'tuesday', 'FBB', 'H420'),
+(6, 2, '14:30:00', '17:30:00', 'tuesday', 'FBB', 'H420'),
+(7, 4, '17:30:00', '20:15:00', 'tuesday', 'FBB', 'JMSB 3-210'),
+(8, 4, '17:30:00', '20:15:00', 'tuesday', 'FBB', 'JMSB 3-210'),
+(9, 4, '17:30:00', '20:15:00', 'friday', 'FC', 'JMSB 3-210'),
+(10, 1, '08:45:00', '10:45:00', 'friday', 'FC', 'H817'),
+(11, 1, '08:45:00', '10:45:00', 'friday', 'FC', 'H817'),
+(12, 1, '08:45:00', '10:45:00', 'friday', 'FC', 'H817');
 
 -- --------------------------------------------------------
 
