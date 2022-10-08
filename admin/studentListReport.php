@@ -110,6 +110,7 @@
                                     <form class=\"justify-content-center text-center\" method=\"get\" action=\"\">
                                         <input type=\"submit\" name=\"action\" value=\"Show class list\"/>
                                         <input type=\"hidden\" name=\"courseId\" value=\"{$row['courseId']}\"/>
+                                        <input type=\"hidden\" name=\"courseCode\" value=\"{$row['courseCode']}\"/>
                                     </form>
                                     </td>");
                 print("</tr>");
@@ -140,9 +141,11 @@
     }
     if (
         isset($_GET['action']) &&
-        isset($_GET['courseId']) &&
+        isset($_GET['courseId']) && 
+        isset($_GET['courseCode']) &&
         $_GET['action'] &&
-        $_GET['courseId']
+        $_GET['courseId'] &&
+        $_GET['courseCode']
     ) {
         $queryForGettingStudentListFromClass =
             "SELECT Person.firstName, Person.lastName, Student.studentID
@@ -151,7 +154,8 @@
                         ON Person.personID = Student.personID
                         INNER JOIN Registrations
                         ON Student.studentID = Registrations.studentID
-                        WHERE Registrations.courseID = $courseId";
+                        WHERE Registrations.courseID = $courseId
+                        ORDER BY Student.studentID";
 
         if (!($studentListFromClass = mysqli_query($database, $queryForGettingStudentListFromClass))) {
             print("<div class=\"container-fluid\">");
@@ -175,7 +179,7 @@
                 print("<div class=\"col-sm-2\">");
                 print("</div>"); // End First Col
                 print("<div class=\"col-sm-8\">");
-                print("<h2>List of students in this class of id: {$courseId}</h2>");
+                print("<h2>List of students in this class: {$courseCode}</h2>");
                 print("</div>"); // End Second Col
                 print("<div class=\"col-sm-2\">");
                 print("</div>"); // End Third Col
@@ -193,7 +197,6 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th></th>");
-
                 // Loop over the rows returned, showing them in a table.
                 while ($row = $studentListFromClass->fetch_assoc()) {
                     print("<tr>");
