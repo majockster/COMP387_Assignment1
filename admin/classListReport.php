@@ -65,7 +65,8 @@
     "SELECT Person.firstName, Person.lastName, Student.studentID
     FROM Person
     INNER JOIN Student
-    ON Person.personID = Student.personID";
+    ON Person.personID = Student.personID
+    ORDER BY Student.studentID";
     if (!($queryForGettingStudentList = mysqli_query($database, $queryForGettingStudentList))) {
         // print("Could not execute query to retrieve all students! <br />");
         // die(mysqli_error($database) . "</body></html>");

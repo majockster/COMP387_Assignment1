@@ -31,7 +31,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
     <h1>Administrator Page</h1>
     <h2><a href="course_manager/createCourse.php">Add a course</a></h2>
     <h2><a href="course_manager/deleteCourse.php">Delete a course</a></h2>
-    <h2><a href="studentListReport.php">Access class list and get student list</a></h2><br>
+    <h2><a href="studentListReport.php">Access class list and get student list</a></h2>
     <h2><a href="classListReport.php">Access students list and get classes taken</a></h2>
 </body>
 
