@@ -8,6 +8,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="manageCourses.php">Manage Courses</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../logout.php">Sign out</a>
+                </li>
             </ul>
         </div>
     </div>

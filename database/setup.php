@@ -14,3 +14,4 @@ if (!mysqli_select_db($conn, "soen387a1")) {
 
 </html>");
 }
+?>

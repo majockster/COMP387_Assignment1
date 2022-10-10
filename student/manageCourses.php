@@ -23,7 +23,9 @@
 
 <body>
 	<?php require_once("navbar.php"); ?>
-
+	<!-- Checking user cookie and authorization -->
+	<?php require("checkIfStudent.php"); ?>
+	
 	<div class="container-fluid">
 		<div class="jumbotron text-center title">
 			<h1>Manage courses</h1>
@@ -32,22 +34,8 @@
 	<?php
 	extract($_POST);
 
-	// Checking user cookie
-	if (!isset($_COOKIE['personID'])) {
-		die("Could not retrieve user cookie. </body></html>");
-	}
-
-	// Connect to MySQL Server
-	// mysqli_connect( Hostname, username, password)
-	if (!($database = mysqli_connect("localhost", "root", ""))) {
-		die("Could not connect to database </body></html>");
-	}
-
-	// Open database
-	// mysqli_select_db( connection, database_name 
-	if (!mysqli_select_db($database, "soen387a1")) {
-		die("Could not open SOEN387A1 database </body></html>");
-	}
+	// Check data base connection
+	require('../database/setup.php');
 
 	// Check if we clicked a button
 	if (
@@ -72,7 +60,7 @@
 						WHERE Student.studentID = {$_COOKIE['personID']}
                         GROUP BY Courses.semester";
 
-			if (!($registeredListResult = mysqli_query($database, $registeredCourses))) {
+			if (!($registeredListResult = mysqli_query($conn, $registeredCourses))) {
 				print("<div class=\"container-fluid\">");
 				print("<div class=\"row\">");
 				print("<div class=\"col-sm-4\">");
@@ -80,7 +68,7 @@
 				print("<div class=\"col-sm-4 justify-content-center\">");
 				print("<div class=\"alert alert-danger text-center\">");
 				print("<p>Could not add the course! Please try again later.</p>");
-				print(mysqli_error($database));
+				print(mysqli_error($conn));
 				print("</div>");
 				print("</div>"); // End Second Col
 				print("<div class=\"col-sm-4\">");
@@ -99,7 +87,7 @@
 						print("<div class=\"col-sm-4 justify-content-center\">");
 						print("<div class=\"alert alert-danger text-center\">");
 						print("<p>You cannot register for more than 5 courses per semester. Sorry!</p>");
-						print(mysqli_error($database));
+						print(mysqli_error($conn));
 						print("</div>");
 						print("</div>"); // End Second Col
 						print("<div class=\"col-sm-4\">");
@@ -116,7 +104,7 @@
 									FROM Courses
 									WHERE Courses.CourseId = $courseId";
 
-					if (!($courseDetailResult = mysqli_query($database, $courseDetail))) {
+					if (!($courseDetailResult = mysqli_query($conn, $courseDetail))) {
 						print("<div class=\"container-fluid\">");
 						print("<div class=\"row\">");
 						print("<div class=\"col-sm-4\">");
@@ -124,7 +112,7 @@
 						print("<div class=\"col-sm-4 justify-content-center\">");
 						print("<div class=\"alert alert-danger text-center\">");
 						print("<p>Could not add the course! Please try again later.</p>");
-						print(mysqli_error($database));
+						print(mysqli_error($conn));
 						print("</div>");
 						print("</div>"); // End Second Col
 						print("<div class=\"col-sm-4\">");
@@ -152,7 +140,7 @@
 							print("<div class=\"col-sm-4 justify-content-center\">");
 							print("<div class=\"alert alert-danger text-center\">");
 							print("Could not add the course, as it is past 1 week since the start of this course. Sorry! <br />");
-							print(mysqli_error($database));
+							print(mysqli_error($conn));
 							print("<br />");
 							print("</div>");
 							print("</div>"); // End Second Col
@@ -164,7 +152,7 @@
 							// We execute an add query before displaying the page.
 							$registerCourse = "INSERT INTO Registrations(studentID, courseID) VALUES({$_COOKIE['personID']}, $courseId)";
 
-							if (!($addResult = mysqli_query($database, $registerCourse))) {
+							if (!($addResult = mysqli_query($conn, $registerCourse))) {
 								print("<div class=\"container-fluid\">");
 								print("<div class=\"row\">");
 								print("<div class=\"col-sm-4\">");
@@ -172,7 +160,7 @@
 								print("<div class=\"col-sm-4 justify-content-center\">");
 								print("<div class=\"alert alert-danger text-center\">");
 								print("<p>Could not add the course! Please try again later.</p>");
-								print(mysqli_error($database));
+								print(mysqli_error($conn));
 								print("</div>");
 								print("</div>"); // End Second Col
 								print("<div class=\"col-sm-4\">");
@@ -187,7 +175,7 @@
 								print("<div class=\"col-sm-4 justify-content-center\">");
 								print("<div class=\"alert alert-success text-center\">");
 								print("<p>Added course successfully!</p>");
-								print(mysqli_error($database));
+								print(mysqli_error($conn));
 								print("</div>");
 								print("</div>"); // End Second Col
 								print("<div class=\"col-sm-4\">");
@@ -205,7 +193,7 @@
 			// We execute an add query before displaying the page.
 			$registerCourse = "DELETE FROM Registrations WHERE studentID ={$_COOKIE['personID']} AND courseID = $courseId";
 
-			if (!($addResult = mysqli_query($database, $registerCourse))) {
+			if (!($addResult = mysqli_query($conn, $registerCourse))) {
 				print("<div class=\"container-fluid\">");
 				print("<div class=\"row\">");
 				print("<div class=\"col-sm-4\">");
@@ -213,7 +201,7 @@
 				print("<div class=\"col-sm-4 justify-content-center\">");
 				print("<div class=\"alert alert-danger text-center\">");
 				print("<p>Could not drop the course! Please try again later.</p>");
-				print(mysqli_error($database));
+				print(mysqli_error($conn));
 				print("</div>");
 				print("</div>"); // End Second Col
 				print("<div class=\"col-sm-4\">");
@@ -228,7 +216,7 @@
 				print("<div class=\"col-sm-4 justify-content-center\">");
 				print("<div class=\"alert alert-success text-center\">");
 				print("<p>Dropped course successfully!</p>");
-				print(mysqli_error($database));
+				print(mysqli_error($conn));
 				print("</div>");
 				print("</div>"); // End Second Col
 				print("<div class=\"col-sm-4\">");
@@ -267,7 +255,7 @@
 				 ORDER BY courseCode ASC";
 
 	// Query available courses
-	if (!($result = mysqli_query($database, $selectAvailable))) {
+	if (!($result = mysqli_query($conn, $selectAvailable))) {
 		print("<div class=\"container-fluid\">");
 		print("<div class=\"row\">");
 		print("<div class=\"col-sm-4\">");
@@ -275,7 +263,7 @@
 		print("<div class=\"col-sm-4 justify-content-center\">");
 		print("<div class=\"alert alert-danger text-center\">");
 		print("<p>Could not execute query to retrieve available courses!</p>");
-		print(mysqli_error($database));
+		print(mysqli_error($conn));
 		print("</div>");
 		print("</div>"); // End Second Col
 		print("<div class=\"col-sm-4\">");
@@ -336,7 +324,7 @@
 			print("</div>"); // End First Col
 			print("<div class=\"col-sm-4\">");
 			print("<h3>There are no courses available for you.</h3>");
-			print(mysqli_error($database));
+			print(mysqli_error($conn));
 			print("<br />");
 			print("</div>"); // End Second Col
 			print("<div class=\"col-sm-4\">");
@@ -372,7 +360,7 @@
 				 ORDER BY courseCode ASC";
 
 	// Query registered courses
-	if (!($result = mysqli_query($database, $selectDroppable))) {
+	if (!($result = mysqli_query($conn, $selectDroppable))) {
 		print("<div class=\"container-fluid\">");
 		print("<div class=\"row\">");
 		print("<div class=\"col-sm-4\">");
@@ -380,7 +368,7 @@
 		print("<div class=\"col-sm-4 justify-content-center\">");
 		print("<div class=\"alert alert-danger text-center\">");
 		print("<p>Could not execute query to retrieve registered courses!</p>");
-		print(mysqli_error($database));
+		print(mysqli_error($conn));
 		print("</div>");
 		print("</div>"); // End Second Col
 		print("<div class=\"col-sm-4\">");
@@ -437,7 +425,7 @@
 			print("</div>"); // End First Col
 			print("<div class=\"col-sm-4\">");
 			print("<h3>You are not registered to any courses at this time.</h3>");
-			print(mysqli_error($database));
+			print(mysqli_error($conn));
 			print("<br />");
 			print("</div>"); // End Second Col
 			print("<div class=\"col-sm-4\">");
@@ -446,11 +434,11 @@
 			print("</div>"); // End container-fluid
 		}
 	}
-	mysqli_close($database);
+	mysqli_close($conn);
 	?>
 	<!-- end PHP script -->
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-	<script src="./js/bootstrap.bundle.min.js"></script>
+	<script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

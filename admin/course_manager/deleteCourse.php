@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <?php
 // Setting user cookie.
-$cookie_name = "admin_user";
+$cookie_name = "personID";
 $cookie_value = "2";
 setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 ?>
@@ -11,7 +11,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 
 
 <head class="page-header header container-fluid-fluid">
-    <title>Delete a Course</title>
+    <title>Admin - Delete a Course</title>
     <style type="text/css">
         table {
             background-color: #ADD8E6
@@ -31,13 +31,14 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 </head>
 
 <body>
-    <?php require_once("../../admin/navbar.php"); ?>
-
+    <?php require_once("navbar_oneLevelDeep.php"); ?>
     <div class="container-fluid">
         <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Delete courses</h1>
         </div>
     </div>
+    <!-- Checking user cookie and authorization -->
+	<?php require("../checkIfAdmin.php"); ?>
     <?php require_once("../../database/setup.php");
     if (isset($_POST['action'])) {
         if ($_POST['action'] == 'Delete') {

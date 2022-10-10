@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Search Results</title>
+    <title>Admin - Class Enrollment List Report</title>
     <style type="text/css">
         table {
             background-color: #ADD8E6
@@ -18,24 +18,21 @@
         }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="/COMP387_Assignment1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
 </head>
 
 <body>
-    <?php require_once("../../admin/navbar.php"); ?>
+    <?php require_once("navbar_oneLevelDeep.php"); ?>
 
     <div class="container-fluid">
         <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Class Enrollment List Report</h1>
         </div>
     </div>
+    <!-- Checking user cookie and authorization -->
+	<?php require("../checkIfAdmin.php"); ?>
     <?php
     extract($_GET);
-
-    // Checking user cookie
-    if (!isset($_COOKIE["admin_user"])) {
-        die("Could not retrieve admin user cookie. </body></html>");
-    }
 
     // Connect to MySQL Server
     // mysqli_connect( Hostname, username, password)
@@ -111,8 +108,10 @@
                 // Clickable button to display class enrolled list
                 print("<td>
                         <form method=\"get\" action=\"\">
-                            <input type=\"submit\" name=\"action\" value=\"Show classes enrolled list\"/>
+                            <input class=\"btn btn-primary\" type=\"submit\" name=\"action\" value=\"Show classes enrolled list\"/>
                             <input type=\"hidden\" name=\"studentId\" value=\"{$row['studentID']}\"/>
+                            <input type=\"hidden\" name=\"firstName\" value=\"{$row['firstName']}\"/>
+                            <input type=\"hidden\" name=\"lastName\" value=\"{$row['lastName']}\"/>
                         </form>
                         </td>");
                 print("</tr>");
@@ -175,7 +174,7 @@
                 print("<div class=\"col-sm-2\">");
                 print("</div>"); // End First Col
                 print("<div class=\"col-sm-8\">");
-                print("<h2>List of classes enrolled for student id: {$studentId}</h2><br />");
+                print("<h2>List of classes enrolled for student: {$firstName} {$lastName}</h2><br />");
                 print("</div>"); // End Second Col
                 print("<div class=\"col-sm-2\">");
                 print("</div>"); // End Third Col
@@ -216,7 +215,7 @@
                 print("<div class=\"col-sm-4\">");
                 print("</div>"); // End First Col
                 print("<div class=\"col-sm-4\">");
-                print("<h3>This student did not enroll to any classes.</h3>");
+                print("<h3>The student {$firstName} {$lastName} is not enrolled in any classes.</h3>");
                 print(mysqli_error($database));
                 print("<br />");
                 print("</div>"); // End Second Col
@@ -231,7 +230,7 @@
     ?>
     <script src=" https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
     </script>
-    <script src="/COMP387_Assignment1/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

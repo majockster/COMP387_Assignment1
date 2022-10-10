@@ -1,17 +1,10 @@
 <!DOCTYPE html">
-<?php
-// Setting user cookie.
-$cookie_name = "admin_user";
-$cookie_value = "2";
-setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
-?>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="/COMP387_Assignment1/css/bootstrap.min.css" />
-    <title>Add a Course</title>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+    <title>Admin - Add a Course</title>
     <style type="text/css">
         form {
             background-color: #ADD8E6
@@ -57,13 +50,15 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 </head>
 
 <body>
-    <?php require_once("../../admin/navbar.php"); ?>
+    <?php require_once("navbar_oneLevelDeep.php"); ?>
     <?php require_once("createCourseHandler.php"); ?>
     <div class="container-fluid">
         <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Create a Course</h1>
         </div>
     </div>
+    <!-- Checking user cookie and authorization -->
+	<?php require("../checkIfAdmin.php"); ?>
 
     <form action="" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
         <div class="mb-3">
@@ -164,10 +159,10 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
     </form>
 
 
-    <script src="/COMP387_Assignment1/scripts/validateCreateCourseForm.js"></script>
-    <script src="/COMP387_Assignment1/scripts/course_times.js"></script>
+    <script src="../../scripts/validateCreateCourseForm.js"></script>
+    <script src="../../scripts/course_times.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
