@@ -58,13 +58,14 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 
 <body>
     <?php require_once("../../admin/navbar.php"); ?>
+    <?php require_once("createCourseHandler.php"); ?>
     <div class="container-fluid">
         <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Create a Course</h1>
         </div>
     </div>
 
-    <form action="createCourseHandler.php" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
+    <form action="" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
         <div class="mb-3">
             <label for="courseCode">Course Code</label>
             <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="e.g. SOEN387" required pattern="^(\w|\d|\s){3,8}$">
@@ -158,7 +159,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
             <button type="button" class="btn btn-success" id="add-course-time" onclick="addAdditionalCourseTime()">Add additional course time</button>
             <button type="button" class="btn btn-danger" id="remove-course-time" onclick="removeCourseTime()" disabled=true>Remove course time</button>
         </div>
-        <button type="button" onclick="runValidations()" class="btn btn-primary">Confirm</button>
+        <input class="btn btn-primary" type="submit" onclick="runValidations()" name="createCourse"></input>
         <button type="reset" class="btn btn-secondary">Reset</button>
     </form>
 

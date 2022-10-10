@@ -23,7 +23,7 @@ function getDays($day, $numOfCourseTimes)
     }
     return $courseTimeDays;
 }
-if (isset($_POST)) {
+if (isset($_POST['createCourse'])) {
     // Extract values from form
     $courseCode = $_POST['courseCode'];
     $courseTitle = $_POST['courseTitle'];
@@ -95,8 +95,37 @@ if (isset($_POST)) {
     // Commit if all sql queries were successful
     if ($creatingCourse && !in_array(FALSE, $creatingSchedule)) {
         mysqli_commit($conn);
+        print("<div class=\"container-fluid\">");
+        print("<div class=\"row\">");
+        print("<div class=\"col-sm-4\">");
+        print("</div>"); // End First Col
+        print("<div class=\"col-sm-4 justify-content-center\" style='margin-top: 20px'>");
+        print("<div class=\"alert alert-success text-center\">");
+        print("<p>Added course successfully!</p>");
+        print(mysqli_error($conn));
+        print("</div>");
+        print("</div>"); // End Second Col
+        print("<div class=\"col-sm-4\">");
+        print("</div>"); // End Third Col
+        print("</div>"); // End Row
+        print("</div>"); // End container-fluid
+
     } else {
         mysqli_rollback($conn);
+        print("<div class=\"container-fluid\">");
+        print("<div class=\"row\">");
+        print("<div class=\"col-sm-4\">");
+        print("</div>"); // End First Col
+        print("<div class=\"col-sm-4 justify-content-center\">");
+        print("<div class=\"alert alert-danger text-center\">");
+        print("<p>Could not add the course! Please try again later.</p>");
+        print(mysqli_error($conn));
+        print("</div>");
+        print("</div>"); // End Second Col
+        print("<div class=\"col-sm-4\">");
+        print("</div>"); // End Third Col
+        print("</div>"); // End Row
+        print("</div>"); // End container-fluid
     }
 
     $conn->close();
