@@ -1,5 +1,6 @@
 <!DOCTYPE html">
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -58,7 +59,7 @@
         </div>
     </div>
     <!-- Checking user cookie and authorization -->
-	<?php require("../checkIfAdmin.php"); ?>
+    <?php require("../checkIfAdmin.php"); ?>
 
     <form action="" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
         <div class="mb-3">
@@ -154,7 +155,8 @@
             <button type="button" class="btn btn-success" id="add-course-time" onclick="addAdditionalCourseTime()">Add additional course time</button>
             <button type="button" class="btn btn-danger" id="remove-course-time" onclick="removeCourseTime()" disabled=true>Remove course time</button>
         </div>
-        <input class="btn btn-primary" type="submit" onclick="runValidations()" name="createCourse"></input>
+        <input type="hidden" name="createCourseRequest" value="true">
+        <input class="btn btn-primary" type="button" name="createCourse" value="Confirm" onclick="runValidations()"></input>
         <button type="reset" class="btn btn-secondary">Reset</button>
     </form>
 

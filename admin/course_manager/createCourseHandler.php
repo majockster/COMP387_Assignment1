@@ -23,7 +23,7 @@ function getDays($day, $numOfCourseTimes)
     }
     return $courseTimeDays;
 }
-if (isset($_POST['createCourse'])) {
+if (isset($_POST['createCourseRequest'])) {
     // Extract values from form
     $courseCode = $_POST['courseCode'];
     $courseTitle = $_POST['courseTitle'];
