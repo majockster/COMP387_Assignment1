@@ -10,12 +10,11 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/COMP387_Assignment1/css/bootstrap.min.css" />
     <title>Add a Course</title>
     <style type="text/css">
-        body {
-            background-color: #F0E68C
+        form {
+            background-color: #ADD8E6
         }
 
         h2 {
@@ -36,7 +35,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
             border-width: 2px;
         }
 
-        .form-group {
+        .mb-3 {
             padding-left: 10px;
             padding-right: 10px;
         }
@@ -58,19 +57,26 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 </head>
 
 <body>
+    <?php require_once("../../admin/navbar.php"); ?>
+    <div class="container-fluid">
+        <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
+            <h1>Create a Course</h1>
+        </div>
+    </div>
+
     <form action="createCourseHandler.php" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
-        <div class="form-group">
+        <div class="mb-3">
             <label for="courseCode">Course Code</label>
             <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="e.g. SOEN387" required pattern="^(\w|\d|\s){3,8}$">
             <p class="invalid-message" id="invalid-code-message" style="display: none;">Must be between 3-10 characters. Must contain only letters, digits or whitespace.</p>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
             <label for="courseTitle">Course Title</label>
             <input type="text" class="form-control" id="courseTitle" name="courseTitle" placeholder="e.g. Web-Based Entreprise Design" required pattern="^(.|\s){3,40}$">
             <p class="invalid-message" id="invalid-title-message" style="display: none;">Must be between 3-250 characters.</p>
         </div>
-        <div class="form-group">
-            <div class="form-row">
+        <div class="mb-3">
+            <div class="row">
                 <div class="col">
                     <label for="courseInstructor">Instructor</label>
                     <input class="form-control" id="courseInstructor" name="courseInstructor" required>
@@ -84,17 +90,17 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="courseStartDate">Start Date</label>
             <input type="date" class="form-control" id="courseStartDate" name="courseStartDate" required>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
             <label for="courseEndDate">End Date</label>
             <input type="date" class="form-control" id="courseEndDate" name="courseEndDate" required>
             <p class="invalid-message" id="invalid-date" style="display : none;">End date must be greater than start date.</p>
         </div>
 
-        <div class="form-group course-schedule border border-secondary rounded">
+        <div class="mb-3 course-schedule border border-secondary rounded">
             <p class="font-weight-bold">Course Times</p>
             <div id="course-times">
                 <div id="course-time">
@@ -109,7 +115,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
                         <input type="text" class="form-control course-section" id="courseSection" name="courseSection[]" required>
                         <p class="invalid-message invalid-section" style="display : none;">Must be between 3-30 chacaters.</p>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="col">
                             <label for="courseStartTime">Start Time</label>
                             <input type="time" class="form-control course-start-time" id="courseStartTime" name="courseStartTime[]" required>
@@ -157,11 +163,10 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
     </form>
 
 
-    <script src="../../scripts/validateCreateCourseForm.js"></script>
-    <script src="../../scripts/course_times.js"></script>
-    <script src=" https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/COMP387_Assignment1/scripts/validateCreateCourseForm.js"></script>
+    <script src="/COMP387_Assignment1/scripts/course_times.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
