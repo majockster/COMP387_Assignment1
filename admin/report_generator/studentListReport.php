@@ -25,7 +25,7 @@
     <?php require_once("../../admin/navbar.php"); ?>
 
     <div class="container-fluid">
-        <div class="jumbotron text-center title">
+        <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Student List Report</h1>
         </div>
     </div>
@@ -143,7 +143,7 @@
     }
     if (
         isset($_GET['action']) &&
-        isset($_GET['courseId']) && 
+        isset($_GET['courseId']) &&
         isset($_GET['courseCode']) &&
         $_GET['action'] &&
         $_GET['courseId'] &&

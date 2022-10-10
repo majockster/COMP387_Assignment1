@@ -25,7 +25,7 @@
     <?php require_once("../../admin/navbar.php"); ?>
 
     <div class="container-fluid">
-        <div class="jumbotron text-center title">
+        <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Class Enrollment List Report</h1>
         </div>
     </div>
@@ -229,7 +229,8 @@
     }
     mysqli_close($database);
     ?>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src=" https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
+    </script>
     <script src="/COMP387_Assignment1/js/bootstrap.bundle.min.js"></script>
 </body>
 
