@@ -31,8 +31,10 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1
 </head>
 
 <body>
+    <?php require_once("../../admin/navbar.php"); ?>
+
     <div class="container-fluid">
-        <div class="jumbotron text-center title">
+        <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
             <h1>Delete courses</h1>
         </div>
     </div>
