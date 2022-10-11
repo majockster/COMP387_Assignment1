@@ -57,7 +57,7 @@
 						ON Courses.courseID = Registrations.courseID
 						INNER JOIN Student
 						ON Registrations.studentID = Student.studentID
-						WHERE Student.studentID = {$_COOKIE['personID']}
+						WHERE Student.personID = {$_COOKIE['personID']}
                         GROUP BY Courses.semester";
 
 			if (!($registeredListResult = mysqli_query($conn, $registeredCourses))) {
@@ -150,7 +150,11 @@
 							print("</div>"); // End container-fluid
 						} else {
 							// We execute an add query before displaying the page.
-							$registerCourse = "INSERT INTO Registrations(studentID, courseID) VALUES({$_COOKIE['personID']}, $courseId)";
+							$registerCourse = "INSERT INTO Registrations(studentID, courseID) 
+							SELECT Student.studentID, $courseId
+							FROM Student
+							WHERE Student.personId = {$_COOKIE["personID"]}
+							";
 
 							if (!($addResult = mysqli_query($conn, $registerCourse))) {
 								print("<div class=\"container-fluid\">");
@@ -191,7 +195,11 @@
 		// Check if we tried to drop a course
 		else if ($_POST['action'] == 'Drop') {
 			// We execute an add query before displaying the page.
-			$registerCourse = "DELETE FROM Registrations WHERE studentID ={$_COOKIE['personID']} AND courseID = $courseId";
+			$registerCourse = "DELETE Registrations 
+			FROM Registrations
+			INNER JOIN Student ON Registrations.StudentID = Student.StudentID
+			WHERE Student.personID ={$_COOKIE['personID']} 
+				  AND Registrations.courseID = $courseId";
 
 			if (!($addResult = mysqli_query($conn, $registerCourse))) {
 				print("<div class=\"container-fluid\">");
@@ -251,7 +259,7 @@
 				 ON Courses.courseID = Registrations.courseID
 				 INNER JOIN Student
 				 ON Registrations.studentID = Student.studentID
-				 WHERE Student.studentID = {$_COOKIE['personID']}
+				 WHERE Student.personID = {$_COOKIE['personID']}
 				 ORDER BY courseCode ASC";
 
 	// Query available courses
@@ -356,7 +364,7 @@
 				 ON Courses.courseID = Registrations.courseID
 				 INNER JOIN Student
 				 ON Registrations.studentID = Student.studentID
-				 WHERE Student.studentID = {$_COOKIE['personID']}
+				 WHERE Student.personID = {$_COOKIE['personID']}
 				 ORDER BY courseCode ASC";
 
 	// Query registered courses

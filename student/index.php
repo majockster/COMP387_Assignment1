@@ -64,7 +64,7 @@
 			ON Courses.courseID = Registrations.courseID
 			INNER JOIN Student
 			ON Registrations.studentID = Student.studentID
-			WHERE Student.StudentID = {$_COOKIE["personID"]}
+			WHERE Student.personID = {$_COOKIE["personID"]}
 			ORDER BY courseCode ASC";
 
 

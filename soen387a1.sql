@@ -23,13 +23,20 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `soen387a1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `soen387a1`;
 
+-- Drop tables
+DROP TABLE IF EXISTS `registrations`;
+DROP TABLE IF EXISTS `coursetimes`;
+DROP TABLE IF EXISTS `administrator`;
+DROP TABLE IF EXISTS `student`;
+DROP TABLE IF EXISTS `courses`;
+DROP TABLE IF EXISTS `person`;
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `administrator`
 --
 
-DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE `administrator` (
   `employmentID` int(11) NOT NULL,
   `personID` int(11) NOT NULL
@@ -60,7 +67,6 @@ INSERT INTO `administrator` (`employmentID`, `personID`) VALUES
 -- Table structure for table `courses`
 --
 
-DROP TABLE IF EXISTS `courses`;
 CREATE TABLE `courses` (
   `courseID` int(11) NOT NULL,
   `courseCode` varchar(10) NOT NULL,
@@ -103,7 +109,6 @@ INSERT INTO `courses` (`courseID`, `courseCode`, `title`, `semester`, `instructo
 -- Table structure for table `coursetimes`
 --
 
-DROP TABLE IF EXISTS `coursetimes`;
 CREATE TABLE `coursetimes` (
   `courseTimeID` int(11) NOT NULL,
   `courseID` int(11) NOT NULL,
@@ -149,7 +154,6 @@ INSERT INTO `coursetimes` (`courseTimeID`, `courseID`, `startTime`, `endTime`, `
 -- Table structure for table `person`
 --
 
-DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
   `personID` int(11) NOT NULL,
   `firstName` varchar(250) NOT NULL,
@@ -187,7 +191,6 @@ INSERT INTO `person` (`personID`, `firstName`, `lastName`, `password`, `address`
 -- Table structure for table `registrations`
 --
 
-DROP TABLE IF EXISTS `registrations`;
 CREATE TABLE `registrations` (
   `registrationID` int(11) NOT NULL,
   `studentID` int(11) NOT NULL,
@@ -225,7 +228,6 @@ INSERT INTO `registrations` (`registrationID`, `studentID`, `courseID`) VALUES
 -- Table structure for table `student`
 --
 
-DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `studentID` int(11) NOT NULL,
   `personID` int(11) NOT NULL
