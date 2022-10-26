@@ -13,10 +13,10 @@
           <a class="nav-link" href="../course_manager/deleteCourse.php">Delete a Course</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../report_generator/classListReport.php">Classes' Student List</a>
+          <a class="nav-link" href="../report_generator/classListReport.php">Student's Courses Taken</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../report_generator/studentListReport.php">Student's Courses Taken</a>
+          <a class="nav-link" href="../report_generator/studentListReport.php">Classes' Student List</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="../../logout.php">Sign out</a>
