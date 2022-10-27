@@ -1,6 +1,7 @@
 package assignment.team._387a2.tableGateways;
 
 import assignment.team._387a2.DataMapper;
+import assignment.team._387a2.dataObjects.SemesterCourses;
 import assignment.team._387a2.helperObjects.SQLConnection;
 import assignment.team._387a2.rowGateways.PersonGateway;
 import assignment.team._387a2.rowGateways.CourseGateway;
@@ -118,6 +119,32 @@ public class CourseTableGateway
         connection.Close();
 
         return Courses;
+    }
+
+    public List<SemesterCourses> getCoursesBySemesterForPersonId(int pPersonId)
+    {
+        SQLConnection connection = new SQLConnection();
+
+        // Select available courses to drop.
+        // Essentially, all courses that the student is registered to.
+
+        String registeredCoursesQuery = """
+      					SELECT COUNT(Courses.CourseId) AS CoursesCount, Courses.semester, courses.startDate, courses.endDate
+						FROM Courses
+						INNER JOIN Registrations
+						ON Courses.courseID = Registrations.courseID
+						INNER JOIN Student
+						ON Registrations.studentID = Student.studentID
+						WHERE Student.personID = """ + pPersonId + " " +
+                "GROUP BY Courses.semester";
+
+        ResultSet result = connection.ExecuteQuery(registeredCoursesQuery);
+
+        List<SemesterCourses> semesterCourses = DataMapper.ConvertToSemesterCourses(result);
+
+        connection.Close();
+
+        return semesterCourses;
     }
 
     public void updateCourse(CourseGateway pCourse)

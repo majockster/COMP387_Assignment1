@@ -1,5 +1,6 @@
 package assignment.team._387a2;
 
+import assignment.team._387a2.dataObjects.SemesterCourses;
 import assignment.team._387a2.rowGateways.*;
 
 import java.sql.ResultSet;
@@ -161,6 +162,32 @@ public class DataMapper
             }
 
             return courseTimes;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public static List<SemesterCourses> ConvertToSemesterCourses(ResultSet pResult)
+    {
+        try
+        {
+            List<SemesterCourses> semesterCourses = new ArrayList<>();
+            while(pResult.next())
+            {
+                SemesterCourses semesterCourse = new SemesterCourses(
+                        pResult.getInt("CoursesCount"),
+                        pResult.getString("semester"),
+                        pResult.getDate("startDate"),
+                        pResult.getDate("endDate")
+                );
+
+                semesterCourses.add(semesterCourse);
+            }
+
+            return semesterCourses;
         }
         catch(Exception e)
         {
