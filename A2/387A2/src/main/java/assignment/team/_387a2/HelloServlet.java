@@ -1,10 +1,9 @@
 package assignment.team._387a2;
 
 import assignment.team._387a2.rowGateways.PersonGateway;
+import assignment.team._387a2.tableGateways.PersonTableGateway;
 
 import java.io.*;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;

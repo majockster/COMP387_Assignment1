@@ -5,9 +5,9 @@
 <%
     String studentType = "student";
 
-    Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
+    Map<String, Cookie> cookiesStudentCheck = CookieHelper.ConvertRequestCookies(request);
 
-    if (cookies.get("personID") == null)
+    if (cookiesStudentCheck.get("personID") == null)
     {
         %>
             Could not retrieve user cookie. </body></html>
@@ -15,7 +15,7 @@
         JSPHelper.KillProgram();
     }
 
-    if (cookies.get("userType") == null)
+    if (cookiesStudentCheck.get("userType") == null)
     {
         %>
             Could not retrieve user's type cookie. </body></html>
@@ -23,7 +23,7 @@
         JSPHelper.KillProgram();
     }
 
-    if (!cookies.get("userType").getValue().equals(studentType))
+    if (!cookiesStudentCheck.get("userType").getValue().equals(studentType))
     {
         %>
             You are not a student, and thus cannot view this page. Sorry! </body></html>

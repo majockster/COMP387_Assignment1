@@ -1,5 +1,6 @@
-package assignment.team._387a2;
+package assignment.team._387a2.tableGateways;
 
+import assignment.team._387a2.DataMapper;
 import assignment.team._387a2.helperObjects.SQLConnection;
 import assignment.team._387a2.rowGateways.PersonGateway;
 
@@ -24,7 +25,7 @@ public class PersonTableGateway
 
         List<PersonGateway> persons = DataMapper.ConvertToPersons(result);
 
-        PersonGateway person = persons == null ? null : persons.get(0);
+        PersonGateway person = persons == null || persons.size() == 0 ? null : persons.get(0);
 
         connection.Close();
 
@@ -41,7 +42,7 @@ public class PersonTableGateway
 
         List<PersonGateway> persons = DataMapper.ConvertToPersons(result);
 
-        PersonGateway person = persons == null ? null : persons.get(0);
+        PersonGateway person = persons == null || persons.size() == 0 ? null : persons.get(0);
 
         connection.Close();
 
@@ -73,7 +74,7 @@ public class PersonTableGateway
 
         List<PersonGateway> persons = DataMapper.ConvertToPersons(result);
 
-        PersonGateway person = persons == null ? null : persons.get(0);
+        PersonGateway person = persons == null || persons.size() == 0 ? null : persons.get(0);
 
         connection.Close();
 
