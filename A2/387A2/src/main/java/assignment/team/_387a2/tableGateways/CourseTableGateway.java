@@ -147,6 +147,35 @@ public class CourseTableGateway
         return semesterCourses;
     }
 
+    public List<CourseGateway> getCoursesAvailableToStudent(int pStudentId)
+    {
+        SQLConnection connection = new SQLConnection();
+
+        // Select available courses to register to.
+        // Essentially, all courses that the student is not registered to.
+        String availableCoursesQuery =
+                """
+                SELECT Courses.CourseId, Courses.courseCode, Courses.title, Courses.semester, courses.instructor, courses.startDate, courses.endDate 
+                            FROM Courses 
+                            EXCEPT
+                            SELECT Courses.CourseId, Courses.courseCode, Courses.title, Courses.semester, courses.instructor, courses.startDate, courses.endDate 
+                            FROM Courses
+                            INNER JOIN Registrations
+                            ON Courses.courseID = Registrations.courseID
+                            INNER JOIN Student
+                            ON Registrations.studentID = Student.studentID
+                            WHERE Student.studentID = """ + pStudentId +
+                        " ORDER BY courseCode ASC";
+
+        ResultSet result = connection.ExecuteQuery(availableCoursesQuery);
+
+        List<CourseGateway> Courses = DataMapper.ConvertToCourses(result);
+
+        connection.Close();
+
+        return Courses;
+    }
+
     public void updateCourse(CourseGateway pCourse)
     {
         SQLConnection connection = new SQLConnection();
