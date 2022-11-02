@@ -1,3 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
+<%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
+<%@ page import = "assignment.team._387a2.helperObjects.SQLConnection" %>
+<%@ page import="javax.servlet.http.Cookie" %>
+<%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
+<%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
+<%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
+<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
+<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.dataObjects.SemesterCourses" %>
+<%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="assignment.team._387a2.rowGateways.RegistrationGateway" %>
+<%@ page import="assignment.team._387a2.tableGateways.RegistrationTableGateway" %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -22,7 +38,7 @@
 </head>
 
 <body>
-    <?php require_once("navbar_oneLevelDeep.php"); ?>
+    <%@ include file = "navbar_oneLevelDeep.jsp" %>
 
     <div class="container-fluid">
         <div class="jumbotron text-center title" style="padding-top: 10px; padding-bottom: 10px">
@@ -30,8 +46,42 @@
         </div>
     </div>
     <!-- Checking user cookie and authorization -->
-	<?php require("../checkIfAdmin.php"); ?>
-    <?php
+	<%-- <?php require("../checkIfAdmin.php"); ?> --%>
+    <%
+        SQLConnection connection = new SQLConnection();
+        // Creating Gateways
+        CourseTableGateway courseTable = new CourseTableGateway();
+        PersonTableGateway personTable = new PersonTableGateway();
+        StudentTableGateway studentTable = new StudentTableGateway();
+        RegistrationTableGateway registrationTable = new RegistrationTableGateway();
+    %>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <h2>List of all students</h2>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+    <% 
+        List<StudentGateway> getStudentList = studentTable.getAll();
+        if (getStudentList.size() > 0){
+    %>
+    <div class="container-fluid">
+            <div class="row justify-content-center">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+            <div class="">
+                <table class="table table-responsive table-striped table-bordered table-hover"> 
+                    <tr> 
+                    <th>Student ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th></th>
+                </table>    
+    </div>
+    <%-- <?php
     extract($_GET);
 
     // Connect to MySQL Server
@@ -227,7 +277,7 @@
         }
     }
     mysqli_close($database);
-    ?>
+    ?> --%>
     <script src=" https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
     </script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
