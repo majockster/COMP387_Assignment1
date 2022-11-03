@@ -4,6 +4,7 @@ import assignment.team._387a2.DataMapper;
 import assignment.team._387a2.dataObjects.SemesterCourses;
 import assignment.team._387a2.helperObjects.SQLConnection;
 import assignment.team._387a2.rowGateways.PersonGateway;
+import assignment.team._387a2.rowGateways.StudentGateway;
 import assignment.team._387a2.rowGateways.CourseGateway;
 
 import java.sql.ResultSet;
@@ -65,6 +66,25 @@ public class CourseTableGateway
         connection.Close();
 
         return Courses;
+    }
+
+    public List<StudentGateway> getStudentListByCourseId(int courseId)
+    {
+        SQLConnection connection = new SQLConnection();
+        String selectStudentList = """
+            SELECT Student.studentID, Student.personID
+            INNER JOIN Registrations
+            ON Student.studentID = Registrations.studentID
+            WHERE Registrations.courseID =""" + courseId + " " +
+            "ORDER BY Student.studentID";
+        
+        ResultSet result = connection.ExecuteQuery(selectStudentList);
+
+        List<StudentGateway> students = DataMapper.ConvertToStudents(result);
+
+        connection.Close();
+
+        return students;
     }
 
     public List<CourseGateway> getCoursesByStudentId(int pStudentId)
