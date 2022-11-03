@@ -1,3 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
+<%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
+<%@ page import = "assignment.team._387a2.helperObjects.SQLConnection" %>
+<%@ page import="javax.servlet.http.Cookie" %>
+<%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
+<%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
+<%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
+<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
+<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.dataObjects.SemesterCourses" %>
+<%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="assignment.team._387a2.rowGateways.RegistrationGateway" %>
+<%@ page import="assignment.team._387a2.tableGateways.RegistrationTableGateway" %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -57,38 +73,48 @@
         <div class="row justify-content-center">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
-            <div class="">            
-                <table class="table table-responsive table-striped table-bordered table-hover">  
-                    <tr>
-                    <th>Course ID</th> 
-                    <th>Course Code</th>
-                    <th>Title</th>
-                    <th>Semester</th>
-                    <th>Instructor</th>
-                    <th></th>
-                    <%
-                        for (CourseGateway course : getAllCourses)
-                        {    
-                    %>
-                    <tr>
-                        <td><%=course.getCourseID()%></td>
-                        <td><%=course.getCourseCode()%></td>
-                        <td><%=course.getTitle()%></td>
-                        <td><%=course.getSemester()%></td>
-                        <td><%=course.getInstructor()%></td>
-                        <td>
-                            <form class="justify-content-center text-center" method="get" action="">
-                                <input class="btn btn-primary" type="submit" name="action" value="Show class list"/>
-                                <input type="hidden" name="courseId" value="<%=course.getCourseID()%>"/>
-                                <input type="hidden" name="courseCode" value="<%=course.getCourseCode()%>"/>
-                            </form>
-                        </td>
-                    </tr>
-                    <%
-                        }
-                    %>
-                </table>
-            </div>
+                <div class="">            
+                    <table class="table table-responsive table-striped table-bordered table-hover">  
+                        <tr>
+                        <th>Course ID</th> 
+                        <th>Course Code</th>
+                        <th>Title</th>
+                        <th>Semester</th>
+                        <th>Instructor</th>
+                        <th></th>
+                        <%
+                            for (CourseGateway course : getAllCourses)
+                            {    
+                        %>
+                            <tr>
+                                <td><%=course.getCourseID()%></td>
+                                <td><%=course.getCourseCode()%></td>
+                                <td><%=course.getTitle()%></td>
+                                <td><%=course.getSemester()%></td>
+                                <td><%=course.getInstructor()%></td>
+                                <td>
+                                    <form class="justify-content-center text-center" method="get" action="">
+                                        <input 
+                                        class="btn btn-primary" 
+                                        type="submit" 
+                                        name="action" 
+                                        value="Show class list"/>
+                                        <input 
+                                        type="hidden" 
+                                        name="courseId" 
+                                        value="<%=course.getCourseID()%>"/>
+                                        <input 
+                                        type="hidden" 
+                                        name="courseCode" 
+                                        value="<%=course.getCourseCode()%>"/>
+                                    </form>
+                                </td>
+                            </tr>
+                        <%
+                            }
+                        %>
+                    </table>
+                </div>
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -99,7 +125,7 @@
         {
     %>
     <div class="container-fluid">
-            <div class="row">
+        <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <h3>There are no courses.</h3>
@@ -112,23 +138,24 @@
         }
         // Loading post parameters
         String action = request.getParameter("action");
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
+        int courseId = !request.getParameter("courseId").isEmpty() ? Integer.parseInt(request.getParameter("courseId")) : -1;
         String courseCode = request.getParameter("courseCode");
 
 
         if ((action != null && !action.isEmpty()) &&
-            (courseId != null && courseId != -1) &&
+            (courseId != -1) &&
             (courseCode != null && !courseCode.isEmpty()))
         {
             List<StudentGateway> getStudentListFromCourse = courseTable.getStudentListByCourseId(courseId);
 
-            if (getStudentListFromCourse.size() > 0){
+            if (getStudentListFromCourse.size() > 0)
+            {
     %>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
-                <h2>List of students enrolled in class <%= courseCode%>:</h2>
+                <h2>List of students enrolled in class <%=courseCode%>:</h2>
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -136,24 +163,24 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                    <table class="table table-responsive table-striped table-bordered table-hover">  
-                        <tr> 
-                        <th>Student ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th></th>
-                        <%
-                            for (StudentGateway student : getStudentListFromCourse)
-                            {
-                        %>
-                        <tr>
-                        <td><%= student.getStudentId()%></td>
-                        <td><%= personTable.findById(student.getPersonId()).getFirstName()%></td>
-                        <td><%= personTable.findById(student.getPersonId()).getLastName()%></td>
-                        <%
-                            }
-                        %>
+            <div class="col-sm-8">
+                <table class="table table-responsive table-striped table-bordered table-hover">  
+                    <tr> 
+                    <th>Student ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th></th>
+                    <%
+                        for (StudentGateway student : getStudentListFromCourse)
+                        {
+                    %>
+                    <tr>
+                    <td><%= student.getStudentId()%></td>
+                    <td><%= personTable.findById(student.getPersonId()).getFirstName()%></td>
+                    <td><%= personTable.findById(student.getPersonId()).getLastName()%></td>
+                    <%
+                        }
+                    %>
                 </table>
             </div>
             <div class="col-sm-2"></div>
@@ -168,7 +195,7 @@
         <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <h3>There are no students enrolled in class <%= courseCode%>.</h3>
+                <h3>There are no students enrolled in class <%=courseCode%>.</h3>
                 <br />
             </div>
             <div class="col-sm-4"></div>
