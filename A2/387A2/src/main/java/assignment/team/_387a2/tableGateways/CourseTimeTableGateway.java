@@ -11,22 +11,6 @@ public class CourseTimeTableGateway {
     public CourseTimeTableGateway() {
     }
 
-    public CourseTimeGateway findById(int pId) {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM CourseTimes WHERE courseTimeID = " + pId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<CourseTimeGateway> courseTimes = DataMapper.ConvertToCourseTimes(result);
-
-        CourseTimeGateway courseTime = courseTimes == null || courseTimes.size() == 0 ? null : courseTimes.get(0);
-
-        connection.Close();
-
-        return courseTime;
-    }
-
     public List<CourseTimeGateway> findByCourseId(int pCourseId) {
         SQLConnection connection = new SQLConnection();
 
