@@ -84,7 +84,7 @@
 	RegistrationTableGateway registrationTable = new RegistrationTableGateway();
 
 	// Loading student gateway
-	StudentGateway student = studentTable.findByPersonId(Integer.parseInt(cookies.get("personID").getValue()));
+	StudentGateway student = studentTable.findByPersonId(Integer.parseInt(cookies.get("personID").getValue()), ResultSet.CONCUR_UPDATABLE);
 
 
 	// Check if we clicked a button
@@ -130,7 +130,7 @@
 				{
 					// Verify business logic rules:
 					// A student can add a course up to one week after the start of the semester
-					CourseGateway courseDetails = courseTable.findById(Integer.parseInt(courseId));
+					CourseGateway courseDetails = courseTable.findById(Integer.parseInt(courseId), ResultSet.CONCUR_UPDATABLE);
 
 
 

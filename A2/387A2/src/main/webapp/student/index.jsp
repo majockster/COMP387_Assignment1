@@ -86,7 +86,7 @@
 		// Retrieve student object of connected student
 		int studentPersonId = Integer.parseInt(cookies.get("personID").getValue());
 
-		StudentGateway student = studentTable.findByPersonId(studentPersonId);
+		StudentGateway student = studentTable.findByPersonId(studentPersonId, ResultSet.CONCUR_READ_ONLY);
 
 		// Select available courses to drop.
 		// Essentially, all courses that the student is registered to.
