@@ -136,6 +136,10 @@
     </div>
     <%
         }
+
+        if (request.getParameter("studentId") == null){
+            return;
+        }
         // Loading post parameters
         String action = request.getParameter("action");
         int studentId = !request.getParameter("studentId").isEmpty() ? Integer.parseInt(request.getParameter("studentId")) : -1 ;
@@ -151,7 +155,7 @@
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
-                <h2>List of classes enrolled for student: <%=personTable.findById(student.getPersonId()).getFirstName() %> <%= personTable.findById(student.getPersonId()).getLastName()%></h2><br />
+                <h2>List of classes enrolled for student: <%=personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getFirstName() %> <%= personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getLastName()%></h2><br />
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -195,7 +199,7 @@
         <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <h3>The student <%= personTable.findById(student.getPersonId()).getFirstName()%> <%= personTable.findById(student.getPersonId()).getLastName()%> is not enrolled in any classes.</h3>
+                <h3>The student <%= personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getFirstName()%> <%= personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getLastName()%> is not enrolled in any classes.</h3>
                 <br />
             </div>
             <div class="col-sm-4"></div>

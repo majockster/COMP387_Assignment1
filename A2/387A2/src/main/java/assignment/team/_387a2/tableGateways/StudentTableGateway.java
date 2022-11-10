@@ -16,13 +16,13 @@ public class StudentTableGateway
     {
     }
 
-    public StudentGateway findById(int pId)
+    public StudentGateway findById(int pId, int concurrencyValue)
     {
         SQLConnection connection = new SQLConnection();
 
         String findQuery = "SELECT * FROM Student WHERE studentID = " + pId + ";";
 
-        ResultSet result = connection.ExecuteQuery(findQuery);
+        ResultSet result = connection.ExecuteQuery(findQuery, concurrencyValue);
 
         List<StudentGateway> students = DataMapper.ConvertToStudents(result);
 
@@ -33,13 +33,13 @@ public class StudentTableGateway
         return student;
     }
 
-    public StudentGateway findByPersonId(int pId)
+    public StudentGateway findByPersonId(int pId, int concurrencyValue)
     {
         SQLConnection connection = new SQLConnection();
 
         String findQuery = "SELECT * FROM Student WHERE personID = " + pId + ";";
 
-        ResultSet result = connection.ExecuteQuery(findQuery);
+        ResultSet result = connection.ExecuteQuery(findQuery, concurrencyValue);
 
         List<StudentGateway> students = DataMapper.ConvertToStudents(result);
 
@@ -88,7 +88,7 @@ public class StudentTableGateway
         connection.ExecuteNoReturn(insertQuery);
 
         // Updating person ID to the proper value.
-        StudentGateway newStudent = findByPersonId(pStudent.getPersonId());
+        StudentGateway newStudent = findByPersonId(pStudent.getPersonId(), ResultSet.CONCUR_UPDATABLE);
         pStudent.setStudentId(newStudent.getStudentId());
 
         connection.Close();

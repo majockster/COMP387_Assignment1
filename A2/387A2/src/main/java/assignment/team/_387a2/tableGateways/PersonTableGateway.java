@@ -21,7 +21,7 @@ public class PersonTableGateway
 
         String findQuery = "SELECT * FROM Person WHERE personID = " + pId + ";";
 
-        ResultSet result = connection.ExecuteQuery(findQuery);
+        ResultSet result = connection.ExecuteQuery(findQuery, ResultSet.CONCUR_READ_ONLY);
 
         List<PersonGateway> persons = DataMapper.ConvertToPersons(result);
 

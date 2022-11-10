@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ADD8E6">
   <div class="container-fluid">
     <a class="navbar-brand" href="./">Home</a>

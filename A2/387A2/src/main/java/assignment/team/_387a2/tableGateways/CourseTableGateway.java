@@ -19,7 +19,7 @@ public class CourseTableGateway
     {
     }
 
-    public CourseGateway findById(int pId)
+    public CourseGateway findById(int pId, int concurrencyValue)
     {
         SQLConnection connection = new SQLConnection();
 
@@ -73,6 +73,7 @@ public class CourseTableGateway
         SQLConnection connection = new SQLConnection();
         String selectStudentList = """
             SELECT Student.studentID, Student.personID
+            FROM Student
             INNER JOIN Registrations
             ON Student.studentID = Registrations.studentID
             WHERE Registrations.courseID =""" + courseId + " " +

@@ -136,6 +136,11 @@
     </div>
     <%
         }
+
+        if (request.getParameter("courseId") == null ||
+            request.getParameter("courseCode") == null){
+            return;
+        }
         // Loading post parameters
         String action = request.getParameter("action");
         int courseId = !request.getParameter("courseId").isEmpty() ? Integer.parseInt(request.getParameter("courseId")) : -1;
