@@ -46,7 +46,7 @@
         </div>
     </div>
     <!-- Checking user cookie and authorization -->
-	<%-- <?php require("../checkIfAdmin.php"); ?> --%>
+	<%-- <?php require("../checkIfAdmin.jsp"); ?> --%>
     <%
         SQLConnection connection = new SQLConnection();
         // Creating Gateways
