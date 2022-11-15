@@ -35,6 +35,9 @@ public class CourseTableGateway
         return Course;
     }
 
+
+    // TODO: Make sure to take into account that the same course can be given in multiple semesters.
+    // Add in a semester parameter, maybe?
     public CourseGateway findByCourseCode(String pCourseCode)
     {
         SQLConnection connection = new SQLConnection();
