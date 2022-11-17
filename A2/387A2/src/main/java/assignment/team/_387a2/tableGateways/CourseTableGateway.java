@@ -245,7 +245,8 @@ public class CourseTableGateway
         connection.ExecuteNoReturn(insertQuery);
 
         // Updating person ID to the proper value.
-        CourseGateway newCourse = findByCourseCode(pCourse.getCourseCode());
+        List<CourseGateway> listCourseGateways = getAll();
+        CourseGateway newCourse = listCourseGateways.get(listCourseGateways.size()-1);
         pCourse.setCourseID(newCourse.getCourseID());
 
         connection.Close();

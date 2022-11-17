@@ -2,6 +2,7 @@ package assignment.team._387a2.tableGateways;
 
 import assignment.team._387a2.DataMapper;
 import assignment.team._387a2.helperObjects.SQLConnection;
+import assignment.team._387a2.rowGateways.CourseGateway;
 import assignment.team._387a2.rowGateways.CourseTimeGateway;
 
 import java.sql.ResultSet;
@@ -70,13 +71,19 @@ public class CourseTimeTableGateway {
     public void insertCourseTime(CourseTimeGateway pCourseTime) {
         SQLConnection connection = new SQLConnection();
 
-        String insertQuery = "INSERT INTO CourseTimes(courseID) " +
-                "VALUES (" + pCourseTime.getCourseID() + ");";
+        String insertQuery = "INSERT INTO CourseTimes(courseID, startTime, endTime, day, section, room) " +
+                "VALUES ('" + pCourseTime.getCourseID() + "', " +
+                "'" + pCourseTime.getStartTime() + "', " +
+                "'" + pCourseTime.getEndTime() + "', " +
+                "'" + pCourseTime.getDay() + "', " +
+                "'" + pCourseTime.getSection() + "', " +
+                "'" + pCourseTime.getRoom() + "');";
 
         connection.ExecuteNoReturn(insertQuery);
 
         // Updating coursetime ID to the proper value.
-        CourseTimeGateway newCourseTime = findByCourseTimeId(pCourseTime.getCourseTimeID());
+        List<CourseTimeGateway> listCourseTimeGateways = getAll();
+        CourseTimeGateway newCourseTime = listCourseTimeGateways.get(listCourseTimeGateways.size()-1);
         pCourseTime.setCourseTimeID(newCourseTime.getCourseTimeID());
 
         connection.Close();
