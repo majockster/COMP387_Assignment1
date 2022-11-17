@@ -36,6 +36,9 @@ public class CourseTableGateway
         return Course;
     }
 
+
+    // TODO: Make sure to take into account that the same course can be given in multiple semesters.
+    // Add in a semester parameter, maybe?
     public CourseGateway findByCourseCode(String pCourseCode)
     {
         SQLConnection connection = new SQLConnection();
@@ -242,7 +245,8 @@ public class CourseTableGateway
         connection.ExecuteNoReturn(insertQuery);
 
         // Updating person ID to the proper value.
-        CourseGateway newCourse = findByCourseCode(pCourse.getCourseCode());
+        List<CourseGateway> listCourseGateways = getAll();
+        CourseGateway newCourse = listCourseGateways.get(listCourseGateways.size()-1);
         pCourse.setCourseID(newCourse.getCourseID());
 
         connection.Close();

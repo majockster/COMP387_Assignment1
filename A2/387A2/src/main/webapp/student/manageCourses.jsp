@@ -98,7 +98,6 @@
 		{
 			// Verify business logic rules:
 			// A student may register in up to 5 courses per semester.
-
 			List<SemesterCourses> coursesBySemester = courseTable.getCoursesBySemesterForPersonId(student.getPersonId());
 
 				boolean canAccess = true;
@@ -227,7 +226,7 @@
 	<%
 
 
-	// Query available courses
+		// Query available courses
 		List<CourseGateway> availableCourses = courseTable.getCoursesAvailableToStudent(student.getStudentId());
 		if (availableCourses.size() > 0)
 		{
