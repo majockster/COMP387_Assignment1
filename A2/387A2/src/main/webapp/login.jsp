@@ -9,59 +9,57 @@
 <%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
 <%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
 <%@ page import="static java.lang.Integer.parseInt" %>
+<%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
+<%@ page import="assignment.team._387a2.rowGateways.PersonGateway" %>
+<%@ page import="assignment.team._387a2.tableGateways.AdministratorTableGateway" %>
+<%@ page import="assignment.team._387a2.rowGateways.AdministratorGateway" %>
 
 
 <%
+	javax.servlet.jsp.JspWriter _jspx_out = null;
+	_jspx_out = out;
+	
 
 	String email = request.getParameter("email");
 	String password = request.getParameter("password");
-	Connection connection = DriverManager.getConnection(
-			"jdbc:mysql://localhost:3306/soen387a1","root","");
 
-	PreparedStatement ps = connection.prepareStatement("select * from person where email = ?");
-	ps.setString(1, email);
-	ResultSet rs = ps.executeQuery();
-	if (rs.next())
+	PersonTableGateway ptg = new PersonTableGateway();
+	PersonGateway person = ptg.findByEmail(email);
+	if (person != null)
 	{
-		if (password == rs.getString("password"))
-		{
-			String pid = rs.getString("personID");
-			String fname = rs.getString("firstName");
-			String lname = rs.getString("lastName");
 
-			// Load cookies
+		if (person.getPassword() == password)
+		{
+			String pid = String.valueOf(person.getPersonId());
+			String fname = person.getFirstName();
+			String lname = person.getLastName();
+
 			Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
 			cookies.put("personID", new Cookie("personID", pid));
 			cookies.put("firstName", new Cookie("firstName", fname));
 			cookies.put("lastName", new Cookie("lastName", lname));
 
-			PreparedStatement ps2 = connection.prepareStatement("select * from administrator where personID = ?");
-			int pID = Integer.parseInt(pid);
-			ps2.setInt(1, pID);
-			ResultSet rs2 = ps2.executeQuery();
-			if (rs2.next())
+			AdministratorTableGateway atg = new AdministratorTableGateway();
+			AdministratorGateway admin = atg.findByPersonId(Integer.parseInt(pid));
+			if (admin == null) {
+				cookies.put("userType", new Cookie("userType", "student"));
+				response.sendRedirect("/student");
+			}
+			else
 			{
 				cookies.put("userType", new Cookie("userType", "admin"));
 				response.sendRedirect("/admin");
 			}
-			else
-			{
-				cookies.put("userType", new Cookie("userType", "student"));
-				response.sendRedirect("/student");
-			}
 		}
 		else
 		{
-			//out.print("<h2>Invalid email or password</h2>");
+			out.print("<h2>Invalid email or password</h2>");
 		}
 	}
 	else
 	{
-		//out.print("<h2>Invalid email or password</h2>");
+		out.print("<h2>Invalid email or password</h2>");
 	}
-
-
-
 
 %>
 
