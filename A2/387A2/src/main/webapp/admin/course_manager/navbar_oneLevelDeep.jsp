@@ -7,19 +7,19 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="../course_manager/createCourse.php">Create a Course</a>
+          <a class="nav-link" href="../course_manager/createCourse.jsp">Create a Course</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../course_manager/deleteCourse.php">Delete a Course</a>
+          <a class="nav-link" href="../course_manager/deleteCourse.jsp">Delete a Course</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../report_generator/classListReport.php">Student's Courses Taken</a>
+          <a class="nav-link" href="../report_generator/classListReport.jsp">Student's Courses Taken</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../report_generator/studentListReport.php">Classes' Student List</a>
+          <a class="nav-link" href="../report_generator/studentListReport.jsp">Classes' Student List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../../logout.php">Sign out</a>
+          <a class="nav-link" href="../../logout.jsp">Sign out</a>
         </li>
       </ul>
     </div>

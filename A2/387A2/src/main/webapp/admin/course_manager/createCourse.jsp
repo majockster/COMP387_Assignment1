@@ -58,6 +58,21 @@
         <h1>Create a Course</h1>
     </div>
 </div>
+<% String success = request.getParameter("success"); %>
+<% if(success != null){
+    if(success.equals("success")){
+        success = "WOOHOO";%>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 justify-content-center style='margin-top : 20px'>'">
+            <div class="alert alert-success text-center">
+                <p>Added course successfully!</p>
+            </div>
+        </div>
+    </div>
+</div>
+<%}}%>
 <!-- Checking user cookie and authorization -->
 <%--    <?php require("../checkIfAdmin.php"); ?>--%>
 <form action="createCourseHandler.jsp" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
@@ -110,12 +125,12 @@
                 <input type="hidden" value="1" name="numberOfTimes">
                 <div>
                     <label for="courseRoom">Room</label>
-                    <input type="text" class="form-control course-room" id="courseRoom" name="courseRoom[]" required>
+                    <input type="text" class="form-control course-room" id="courseRoom" name="courseRoom" required>
                     <p class="invalid-message invalid-room" style="display : none;">Must be between 3-150 chacaters.</p>
                 </div>
                 <div>
                     <label for="courseSection">Section</label>
-                    <input type="text" class="form-control course-section" id="courseSection" name="courseSection[]"
+                    <input type="text" class="form-control course-section" id="courseSection" name="courseSection"
                            required>
                     <p class="invalid-message invalid-section" style="display : none;">Must be between 3-30
                         chacaters.</p>
@@ -124,12 +139,12 @@
                     <div class="col">
                         <label for="courseStartTime">Start Time</label>
                         <input type="time" class="form-control course-start-time" id="courseStartTime"
-                               name="courseStartTime[]" required>
+                               name="courseStartTime" required>
                     </div>
                     <div class="col">
                         <label for="courseEndTime">End Time</label>
                         <input type="time" class="form-control course-end-time" id="courseEndTime"
-                               name="courseEndTime[]" required>
+                               name="courseEndTime" required>
                     </div>
                     <p class="invalid-message invalid-time-message" style="display: none;">End time must be greater than
                         start time.</p>
@@ -148,13 +163,13 @@
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="hidden" value="entry" name="wednesday">
                     <input class="form-check-input wednesday" type="checkbox" id="wednesday" value="wednesday"
-                           name="wednesday[]">
+                           name="wednesday">
                     <label class="form-check-label">Wednesday</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="hidden" value="entry" name="thursday">
                     <input class="form-check-input thursday" type="checkbox" id="thursday" value="thursday"
-                           name="thursday[]">
+                           name="thursday">
                     <label class="form-check-label">Thursday</label>
                 </div>
                 <div class="form-check form-check-inline">

@@ -4,6 +4,7 @@
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="assignment.team._387a2.rowGateways.CourseTimeGateway" %>
+<%@ page import="assignment.team._387a2.tableGateways.CourseTimeTableGateway" %>
 <%!
     // Function to extract days for course times
     public ArrayList<Integer> getDays(String[] aDay, int numOfCourseTimes){
@@ -40,16 +41,15 @@
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     Date courseStartDate = sdf.parse(courseStartString);
     Date courseEndDate = sdf.parse(courseEndString);
-    String courseStartTimes = request.getParameter("courseStartTimes");
-    String courseEndTimes = request.getParameter("courseEndTimes");
-    String courseRoom = request.getParameter("courseRoom");
+    String[] courseStartTimes = request.getParameterValues("courseStartTime");
+    String[] courseEndTimes = request.getParameterValues("courseEndTime");
+    String[] courseRoom = request.getParameterValues("courseRoom");
     String[] monday = request.getParameterValues("monday");
     String[] tuesday = request.getParameterValues("tuesday");
     String[] wednesday = request.getParameterValues("wednesday");
     String[] thursday = request.getParameterValues("thursday");
     String[] friday = request.getParameterValues("friday");
-    String courseSection = request.getParameter("courseSection");
-    String[] entries = request.getParameterValues("numberOfTimes");
+    String[] courseSection = request.getParameterValues("courseSection");
     int numberOfTimes = (request.getParameterValues("numberOfTimes")).length;
 %>
 <%
@@ -65,19 +65,55 @@
             courseEndDate);
     CourseTableGateway courseTableGateway = new CourseTableGateway();
     courseTableGateway.insertCourse(cg);
+    int courseId = cg.getCourseID();
+
 
     // Inserting the course times
+    CourseTimeTableGateway courseTimeTableGateway = new CourseTimeTableGateway();
     for(int i = 0; i < numberOfTimes; i++){
         Integer intI = Integer.valueOf(i);
         if(mondays.contains(intI)){
-            CourseTimeGateway courseTimeGateway = new CourseTimeGateway()
+            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+                    courseEndTimes[i],
+                    "monday",
+                    courseSection[i],
+                    courseRoom[i]);
+            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+        }
+        if(tuesdays.contains(intI)){
+            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+                    courseEndTimes[i],
+                    "tuesday",
+                    courseSection[i],
+                    courseRoom[i]);
+            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+        }
+        if(wednesdays.contains(intI)){
+            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+                    courseEndTimes[i],
+                    "wednesday",
+                    courseSection[i],
+                    courseRoom[i]);
+            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+        }
+        if(thursdays.contains(intI)){
+            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+                    courseEndTimes[i],
+                    "thursday",
+                    courseSection[i],
+                    courseRoom[i]);
+            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+        }
+        if(fridays.contains(intI)){
+            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+                    courseEndTimes[i],
+                    "friday",
+                    courseSection[i],
+                    courseRoom[i]);
+            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
         }
     }
 %>
-<%= mondays %>
-<% for(String entry : monday){%>
-
-<%= entry %>
-
-<%}%>
-
+<jsp:forward page="createCourse.jsp">
+    <jsp:param name="success" value="success"/>
+</jsp:forward>
