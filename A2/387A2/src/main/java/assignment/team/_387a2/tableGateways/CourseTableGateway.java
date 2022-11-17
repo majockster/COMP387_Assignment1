@@ -4,6 +4,7 @@ import assignment.team._387a2.DataMapper;
 import assignment.team._387a2.dataObjects.SemesterCourses;
 import assignment.team._387a2.helperObjects.SQLConnection;
 import assignment.team._387a2.rowGateways.PersonGateway;
+import assignment.team._387a2.rowGateways.StudentGateway;
 import assignment.team._387a2.rowGateways.CourseGateway;
 
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ public class CourseTableGateway
     {
     }
 
-    public CourseGateway findById(int pId)
+    public CourseGateway findById(int pId, int concurrencyValue)
     {
         SQLConnection connection = new SQLConnection();
 
@@ -68,6 +69,26 @@ public class CourseTableGateway
         connection.Close();
 
         return Courses;
+    }
+
+    public List<StudentGateway> getStudentListByCourseId(int courseId)
+    {
+        SQLConnection connection = new SQLConnection();
+        String selectStudentList = """
+            SELECT Student.studentID, Student.personID
+            FROM Student
+            INNER JOIN Registrations
+            ON Student.studentID = Registrations.studentID
+            WHERE Registrations.courseID =""" + courseId + " " +
+            "ORDER BY Student.studentID";
+        
+        ResultSet result = connection.ExecuteQuery(selectStudentList);
+
+        List<StudentGateway> students = DataMapper.ConvertToStudents(result);
+
+        connection.Close();
+
+        return students;
     }
 
     public List<CourseGateway> getCoursesByStudentId(int pStudentId)
@@ -224,7 +245,8 @@ public class CourseTableGateway
         connection.ExecuteNoReturn(insertQuery);
 
         // Updating person ID to the proper value.
-        CourseGateway newCourse = findByCourseCode(pCourse.getCourseCode());
+        List<CourseGateway> listCourseGateways = getAll();
+        CourseGateway newCourse = listCourseGateways.get(listCourseGateways.size()-1);
         pCourse.setCourseID(newCourse.getCourseID());
 
         connection.Close();

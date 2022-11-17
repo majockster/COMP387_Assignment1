@@ -67,6 +67,38 @@ public class SQLConnection {
         }
     }
 
+    public ResultSet ExecuteQuery(String pQuery, int concurrencyValue)
+    {
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/soen387a1","root","");
+
+            currentConnection = connection;
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, concurrencyValue);
+            currentStatement = statement;
+            ResultSet result = statement.executeQuery(pQuery);
+            currentResultSet = result;
+            return result;
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+            try
+            {
+                currentStatement.close();
+                currentConnection.close();
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+                System.exit(1);
+            }
+            return null;
+        }
+    }
+
     public void ExecuteNoReturn(String pQuery)
     {
         try

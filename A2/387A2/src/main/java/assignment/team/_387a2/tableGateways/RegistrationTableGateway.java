@@ -31,13 +31,13 @@ public class RegistrationTableGateway
         return registration;
     }
 
-    public RegistrationGateway findByStudentIdAndCourseId(int pStudentId, int pCourseId)
+    public RegistrationGateway findByStudentIdAndCourseId(int pStudentId, int pCourseId, int concurrencyValue)
     {
         SQLConnection connection = new SQLConnection();
 
         String findQuery = "SELECT * FROM Registrations WHERE studentID = " + pStudentId + " AND courseID = " + pCourseId + ";";
 
-        ResultSet result = connection.ExecuteQuery(findQuery);
+        ResultSet result = connection.ExecuteQuery(findQuery, concurrencyValue);
 
         List<RegistrationGateway> registrations = DataMapper.ConvertToRegistrations(result);
 
@@ -87,7 +87,7 @@ public class RegistrationTableGateway
         connection.ExecuteNoReturn(insertQuery);
 
         // Updating person ID to the proper value.
-        RegistrationGateway newReg = findByStudentIdAndCourseId(pRegistration.getStudentID(), pRegistration.getCourseID());
+        RegistrationGateway newReg = findByStudentIdAndCourseId(pRegistration.getStudentID(), pRegistration.getCourseID(), ResultSet.CONCUR_UPDATABLE);
         pRegistration.setRegistrationID(newReg.getRegistrationID());
 
         connection.Close();
