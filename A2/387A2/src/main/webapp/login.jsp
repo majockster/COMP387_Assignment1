@@ -16,10 +16,6 @@
 
 
 <%
-	javax.servlet.jsp.JspWriter _jspx_out = null;
-	_jspx_out = out;
-	
-
 	String email = request.getParameter("email");
 	String password = request.getParameter("password");
 
@@ -28,7 +24,7 @@
 	if (person != null)
 	{
 
-		if (person.getPassword() == password)
+		if (person.getPassword().equals(password))
 		{
 			String pid = String.valueOf(person.getPersonId());
 			String fname = person.getFirstName();
@@ -40,7 +36,7 @@
 			cookies.put("lastName", new Cookie("lastName", lname));
 
 			AdministratorTableGateway atg = new AdministratorTableGateway();
-			AdministratorGateway admin = atg.findByPersonId(Integer.parseInt(pid));
+			AdministratorGateway admin = atg.findByPersonId(person.getPersonId());
 			if (admin == null) {
 				cookies.put("userType", new Cookie("userType", "student"));
 				response.sendRedirect("/student");
