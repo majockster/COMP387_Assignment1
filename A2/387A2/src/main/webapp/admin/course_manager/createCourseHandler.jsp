@@ -5,6 +5,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="assignment.team._387a2.rowGateways.CourseTimeGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTimeTableGateway" %>
+<%@ include file="../checkIfAdmin.jsp"%>
 <%!
     // Function to extract days for course times
     public ArrayList<Integer> getDays(String[] aDay, int numOfCourseTimes){
