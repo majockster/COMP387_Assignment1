@@ -34,20 +34,47 @@
 				String fname = person.getFirstName();
 				String lname = person.getLastName();
 
-				Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
-				cookies.put("personID", new Cookie("personID", pid));
-				cookies.put("firstName", new Cookie("firstName", fname));
-				cookies.put("lastName", new Cookie("lastName", lname));
+		//		Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
+		//		cookies.put("personID", new Cookie("personID", pid));
+		//		cookies.put("firstName", new Cookie("firstName", fname));
+		//		cookies.put("lastName", new Cookie("lastName", lname));
 
 				AdministratorTableGateway atg = new AdministratorTableGateway();
 				AdministratorGateway admin = atg.findByPersonId(person.getPersonId());
 				if (admin == null) {
-					cookies.put("userType", new Cookie("userType", "student"));
+					Cookie personID = new Cookie("personID", pid);
+					Cookie firstName = new Cookie("firstName", fname);
+					Cookie lastName = new Cookie("lastName", lname);
+					Cookie userType = new Cookie("userType", "student");
+
+					personID.setMaxAge(60*60*24);
+					firstName.setMaxAge(60*60*24);
+					lastName.setMaxAge(60*60*24);
+					userType.setMaxAge(60*60*24);
+
+					response.addCookie(personID);
+					response.addCookie(firstName);
+					response.addCookie(lastName);
+					response.addCookie(userType);
 					response.sendRedirect("student");
+
 				}
 				else
 				{
-					cookies.put("userType", new Cookie("userType", "admin"));
+					Cookie personID = new Cookie("personID", pid);
+					Cookie firstName = new Cookie("firstName", fname);
+					Cookie lastName = new Cookie("lastName", lname);
+					Cookie userType = new Cookie("userType", "admin");
+
+					personID.setMaxAge(60*60*24);
+					firstName.setMaxAge(60*60*24);
+					lastName.setMaxAge(60*60*24);
+					userType.setMaxAge(60*60*24);
+
+					response.addCookie(personID);
+					response.addCookie(firstName);
+					response.addCookie(lastName);
+					response.addCookie(userType);
 					response.sendRedirect("admin");
 				}
 			}
