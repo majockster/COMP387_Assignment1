@@ -34,7 +34,7 @@
 	<body>
 		<%@ include file = "navbar.jsp" %>
 <%--		<!-- Checking user cookie and authorization -->--%>
-<%--		<%@ include file = "checkIfStudent.jsp" %>--%>
+		<%@ include file = "checkIfStudent.jsp" %>
 		<%
 		// Load cookies
 		Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
