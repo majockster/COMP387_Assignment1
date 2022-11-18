@@ -54,13 +54,21 @@
 			else
 			{
 				error = true;
-				message = "Invalid email or password";
+					%>
+					<script type="text/javascript" >
+						alert("Invalid email or password");
+					</script>
+					<%
 			}
 		}
 		else
 		{
 			error = true;
-			message = "Invalid email or password";
+					%>
+					<script type="text/javascript" >
+						alert("Invalid email or password");
+					</script>
+					<%
 		}
 	}
 %>
@@ -78,7 +86,6 @@
 	</head>
 
 	<body class="text-center">
-	<h2><%= message %></h2>
 
 	<main class="form-signin">
 		<form action="login.jsp" method="post">
