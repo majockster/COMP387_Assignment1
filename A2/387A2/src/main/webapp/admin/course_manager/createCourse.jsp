@@ -73,7 +73,7 @@
 </div>
 <%}}%>
 <!-- Checking user cookie and authorization -->
-<%--    <?php require("../checkIfAdmin.php"); ?>--%>
+<%@ include file = "../checkIfAdmin.jsp" %>
 <form action="createCourseHandler.jsp" method="post" class="border border-primary rounded" id="createCourseForm" name="createCourseForm">
     <div class="mb-3">
         <label for="courseCode">Course Code</label>
