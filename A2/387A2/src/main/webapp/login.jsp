@@ -39,22 +39,30 @@
 			AdministratorGateway admin = atg.findByPersonId(person.getPersonId());
 			if (admin == null) {
 				cookies.put("userType", new Cookie("userType", "student"));
-				response.sendRedirect("/student");
+				response.sendRedirect("student");
 			}
 			else
 			{
 				cookies.put("userType", new Cookie("userType", "admin"));
-				response.sendRedirect("/admin");
+				response.sendRedirect("admin");
 			}
 		}
 		else
 		{
-			out.print("<h2>Invalid email or password</h2>");
+			%>
+			<script type="text/javascript">
+				alert("Invalid email or password");
+			</script>
+			<%
 		}
 	}
 	else
 	{
-		out.print("<h2>Invalid email or password</h2>");
+			%>
+			<script type="text/javascript">
+				alert("Invalid email or password");
+			</script>
+			<%
 	}
 
 %>
