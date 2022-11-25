@@ -30,21 +30,18 @@
 
 			if (person.getPassword().equals(password))
 			{
-				String pid = String.valueOf(person.getPersonId());
-				String fname = person.getFirstName();
-				String lname = person.getLastName();
-
-		//		Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
-		//		cookies.put("personID", new Cookie("personID", pid));
-		//		cookies.put("firstName", new Cookie("firstName", fname));
-		//		cookies.put("lastName", new Cookie("lastName", lname));
 
 				AdministratorTableGateway atg = new AdministratorTableGateway();
 				AdministratorGateway admin = atg.findByPersonId(person.getPersonId());
-				if (admin == null) {
-					Cookie personID = new Cookie("personID", pid);
-					Cookie firstName = new Cookie("firstName", fname);
-					Cookie lastName = new Cookie("lastName", lname);
+
+				if (admin == null)
+				{
+					StudentTableGateway stg = new StudentTableGateway();
+					StudentGateway student = stg.findByPersonId(person.getPersonId(), ResultSet.CONCUR_READ_ONLY);
+
+					Cookie personID = new Cookie("personID", String.valueOf(student.getPersonId()));
+					Cookie firstName = new Cookie("firstName", student.getFirstName());
+					Cookie lastName = new Cookie("lastName", student.getLastName());
 					Cookie userType = new Cookie("userType", "student");
 
 					personID.setMaxAge(60*60*24);
@@ -61,9 +58,9 @@
 				}
 				else
 				{
-					Cookie personID = new Cookie("personID", pid);
-					Cookie firstName = new Cookie("firstName", fname);
-					Cookie lastName = new Cookie("lastName", lname);
+					Cookie personID = new Cookie("personID", String.valueOf(admin.getPersonId()));
+					Cookie firstName = new Cookie("firstName", admin.getFirstName());
+					Cookie lastName = new Cookie("lastName", admin.getLastName());
 					Cookie userType = new Cookie("userType", "admin");
 
 					personID.setMaxAge(60*60*24);
