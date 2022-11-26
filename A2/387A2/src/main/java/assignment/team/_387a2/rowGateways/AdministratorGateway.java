@@ -1,35 +1,32 @@
 package assignment.team._387a2.rowGateways;
 
-public class AdministratorGateway
+import java.util.Date;
+
+public class AdministratorGateway extends PersonGateway
 {
     int employmentID;
-    int personID;
 
     public AdministratorGateway()
     {
+        super();
         employmentID = -1;
-        personID = -1;
     }
 
-    public AdministratorGateway(int employmentID, int personID)
+    public AdministratorGateway(int employmentID, int personId, String firstName, String lastName, String password,
+                                String address, String email, String phoneNumber, Date dateOfBirth)
     {
+        super(personId, firstName, lastName, password, address, email, phoneNumber, dateOfBirth);
         this.employmentID = employmentID;
-        this.personID = personID;
     }
 
-    public int getEmploymentID() {
+    public int getEmploymentID()
+    {
         return employmentID;
     }
 
-    public int getPersonID() {
-        return personID;
-    }
-
-    public void setEmploymentID(int employmentID) {
+    public void setEmploymentID(int employmentID)
+    {
         this.employmentID = employmentID;
     }
 
-    public void setPersonID(int personID) {
-        this.personID = personID;
-    }
 }
