@@ -38,11 +38,6 @@
 		<%
 		// Load cookies
 		Map<String, Cookie> cookies = CookieHelper.ConvertRequestCookies(request);
-		// DEBUG
-		cookies.put("personID", new Cookie("personID", "1"));
-		cookies.put("firstName", new Cookie("firstName", "Luke"));
-		cookies.put("lastName", new Cookie("lastName", "Skywalker"));
-		// END DEBUG
 
 		if (cookies.get("firstName") == null)
 		{
@@ -64,7 +59,7 @@
 
 		<div class="container-fluid">
 			<div class="jumbotron text-center title">
-				<h1>Welcome ${cookie["firstName"]} ${cookie["lastName"]}</h1>
+				<h1>Welcome <%= cookies.get("firstName").getValue() %> <%= cookies.get("lastName").getValue() %> </h1>
 			</div>
 		</div>
 
