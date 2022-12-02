@@ -86,8 +86,8 @@
                         %>
                             <tr>
                                 <td><%= student.getStudentId()%></td>
-                                <td><%= personTable.findById(student.getPersonId()).getFirstName()%></td>
-                                <td><%= personTable.findById(student.getPersonId()).getLastName()%></td>
+                                <td><%= student.getFirstName()%></td>
+                                <td><%= student.getLastName()%></td>
                                 <td>
                                     <form method="get" action="">
                                         <input 
@@ -102,11 +102,11 @@
                                         <input 
                                         type="hidden" 
                                         name="firstName" 
-                                        value="<%= personTable.findById(student.getPersonId()).getFirstName()%>"/>
+                                        value="<%= student.getFirstName()%>"/>
                                         <input 
                                         type="hidden" 
                                         name="lastName" 
-                                        value="<%= personTable.findById(student.getPersonId()).getLastName()%>"/>
+                                        value="<%= student.getLastName()%>"/>
                                     </form>
                                 </td>
                             </tr>

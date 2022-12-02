@@ -66,7 +66,7 @@ public class AdministratorTableGateway {
         SQLConnection connection = new SQLConnection();
 
         String insertQuery = "INSERT INTO Administrator(personID)" +
-                "VALUES (" + pAdministrator.getPersonID() + ")";
+                "VALUES (" + pAdministrator.getPersonId() + ")";
 
         connection.ExecuteNoReturn(insertQuery);
     }

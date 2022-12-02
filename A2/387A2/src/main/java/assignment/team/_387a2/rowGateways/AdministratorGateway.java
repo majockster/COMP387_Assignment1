@@ -29,4 +29,9 @@ public class AdministratorGateway extends PersonGateway
         this.employmentID = employmentID;
     }
 
+    public int getPersonId(){ return super.getPersonId(); }
+
+    public String getFirstName() { return super.getFirstName(); }
+    public String getLastName() { return super.getLastName(); }
+
 }

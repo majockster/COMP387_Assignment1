@@ -29,4 +29,9 @@ public class StudentGateway extends PersonGateway
     {
         studentId = pStudentId;
     }
+
+    public int getPersonId() { return super.getPersonId(); }
+
+    public String getFirstName() { return super.getFirstName(); }
+    public String getLastName() { return super.getLastName(); }
 }
