@@ -1,121 +1,46 @@
 package assignment.team._387a2.tableGateways;
 
-import assignment.team._387a2.DataMapper;
-import assignment.team._387a2.helperObjects.SQLConnection;
-import assignment.team._387a2.rowGateways.CourseGateway;
-import assignment.team._387a2.rowGateways.CourseTimeGateway;
+import assignment.team._387a2.domainObjects.CourseTime;
+import assignment.team._387a2.mappers.CourseTimeMapper;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public class CourseTimeTableGateway {
+    private CourseTimeMapper courseTimeMapper;
+
     public CourseTimeTableGateway() {
+        courseTimeMapper = new CourseTimeMapper();
     }
 
-    public List<CourseTimeGateway> findByCourseId(int pCourseId) {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM CourseTimes WHERE courseID = " + pCourseId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<CourseTimeGateway> courseTimes = DataMapper.ConvertToCourseTimes(result);
-
-        connection.Close();
-
-        return courseTimes;
+    public List<CourseTime> findByCourseId(int pCourseId) {
+        return courseTimeMapper.findByCourseId(pCourseId);
     }
 
-    public CourseTimeGateway findByCourseTimeId(int pCourseTimeId) {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM CourseTimes WHERE courseTimeID = " + pCourseTimeId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<CourseTimeGateway> courseTimes = DataMapper.ConvertToCourseTimes(result);
-
-        CourseTimeGateway courseTime = courseTimes == null || courseTimes.size() == 0 ? null : courseTimes.get(0);
-
-        connection.Close();
-
-        return courseTime;
+    public CourseTime findByCourseTimeId(int pCourseTimeId) {
+        return courseTimeMapper.find(pCourseTimeId);
     }
 
-    public List<CourseTimeGateway> getAll() {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM CourseTimes;";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<CourseTimeGateway> courseTimes = DataMapper.ConvertToCourseTimes(result);
-
-        connection.Close();
-
-        return courseTimes;
+    public List<CourseTime> getAll() {
+        return courseTimeMapper.getAll();
     }
 
-    public void updateCourseTime(CourseTimeGateway pCourseTime) {
-        SQLConnection connection = new SQLConnection();
-
-        String updateQuery = "UPDATE CourseTimes " +
-                "SET courseId = " + pCourseTime.getCourseID() +
-                " WHERE courseTimeID = " + Integer.toString(pCourseTime.getCourseTimeID()) + ";";
-
-        connection.ExecuteNoReturn(updateQuery);
-
-        connection.Close();
+    public void updateCourseTime(CourseTime pCourseTime) {
+        courseTimeMapper.update(pCourseTime);
     }
 
-    public void insertCourseTime(CourseTimeGateway pCourseTime) {
-        SQLConnection connection = new SQLConnection();
-
-        String insertQuery = "INSERT INTO CourseTimes(courseID, startTime, endTime, day, section, room) " +
-                "VALUES ('" + pCourseTime.getCourseID() + "', " +
-                "'" + pCourseTime.getStartTime() + "', " +
-                "'" + pCourseTime.getEndTime() + "', " +
-                "'" + pCourseTime.getDay() + "', " +
-                "'" + pCourseTime.getSection() + "', " +
-                "'" + pCourseTime.getRoom() + "');";
-
-        connection.ExecuteNoReturn(insertQuery);
-
-        // Updating coursetime ID to the proper value.
-        List<CourseTimeGateway> listCourseTimeGateways = getAll();
-        CourseTimeGateway newCourseTime = listCourseTimeGateways.get(listCourseTimeGateways.size()-1);
-        pCourseTime.setCourseTimeID(newCourseTime.getCourseTimeID());
-
-        connection.Close();
+    public void insertCourseTime(CourseTime pCourseTime) {
+        courseTimeMapper.insert(pCourseTime);
     }
 
-    public void deleteCourseTime(CourseTimeGateway pCourseTime) {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM CourseTimes WHERE CourseTimeID = " + pCourseTime.getCourseTimeID() + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+    public void deleteCourseTime(CourseTime pCourseTime) {
+        courseTimeMapper.delete(pCourseTime);
     }
 
     public void deleteCourseTimeByCourseTimeId(int pCourseTimeID) {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM CourseTimes WHERE CourseTimeID = " + pCourseTimeID + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        courseTimeMapper.deleteCourseTimeByCourseTimeId(pCourseTimeID);
     }
 
     public void deleteCourseTimeByCourseId(int pCourseID) {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM CourseTimes WHERE CourseID = " + pCourseID + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        courseTimeMapper.deleteCourseTimeByCourseId(pCourseID);
     }
 }

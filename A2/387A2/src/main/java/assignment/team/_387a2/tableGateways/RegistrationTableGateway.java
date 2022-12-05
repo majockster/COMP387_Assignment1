@@ -1,128 +1,56 @@
 package assignment.team._387a2.tableGateways;
 
-import assignment.team._387a2.DataMapper;
-import assignment.team._387a2.helperObjects.SQLConnection;
-import assignment.team._387a2.rowGateways.RegistrationGateway;
-import assignment.team._387a2.rowGateways.StudentGateway;
+import assignment.team._387a2.domainObjects.Registration;
+import assignment.team._387a2.mappers.RegistrationMapper;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public class RegistrationTableGateway
 {
+    private RegistrationMapper registrationMapper;
+
     public RegistrationTableGateway()
     {
+        registrationMapper = new RegistrationMapper();
     }
 
-    public RegistrationGateway findById(int pId)
+    public Registration findById(int pId)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM Registrations WHERE registrationId = " + pId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<RegistrationGateway> registrations = DataMapper.ConvertToRegistrations(result);
-
-        RegistrationGateway registration = registrations == null || registrations.size() == 0 ? null : registrations.get(0);
-
-        connection.Close();
-
-        return registration;
+        return registrationMapper.find(pId);
     }
 
-    public RegistrationGateway findByStudentIdAndCourseId(int pStudentId, int pCourseId, int concurrencyValue)
+    public Registration findByStudentIdAndCourseId(int pStudentId, int pCourseId, int concurrencyValue)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM Registrations WHERE studentID = " + pStudentId + " AND courseID = " + pCourseId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery, concurrencyValue);
-
-        List<RegistrationGateway> registrations = DataMapper.ConvertToRegistrations(result);
-
-        RegistrationGateway registration = registrations == null || registrations.size() == 0 ? null : registrations.get(0);
-
-        connection.Close();
-
-        return registration;
+        return registrationMapper.findByStudentIdAndCourseId(pStudentId, pCourseId, concurrencyValue);
     }
 
-    public List<RegistrationGateway> getAll()
+    public List<Registration> getAll()
     {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM Registrations;";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<RegistrationGateway> registrations = DataMapper.ConvertToRegistrations(result);
-
-        connection.Close();
-
-        return registrations;
+        return registrationMapper.getAll();
     }
 
-    public void updateRegistration(RegistrationGateway pRegistration)
+    public void updateRegistration(Registration pRegistration)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String updateQuery = "UPDATE Registrations " +
-                "SET studentID = " + pRegistration.getStudentID() + ", " +
-                "courseID = " + pRegistration.getCourseID() +
-                " WHERE registrationID = " + Integer.toString(pRegistration.getRegistrationID()) + ";";
-
-        connection.ExecuteNoReturn(updateQuery);
-
-        connection.Close();
+        registrationMapper.update(pRegistration);
     }
 
-    public void insertRegistration(RegistrationGateway pRegistration)
+    public void insertRegistration(Registration pRegistration)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String insertQuery = "INSERT INTO Registrations(studentID, courseID) " +
-                "VALUES (" + pRegistration.getStudentID() + ", " + pRegistration.getCourseID() + " );";
-
-        connection.ExecuteNoReturn(insertQuery);
-
-        // Updating person ID to the proper value.
-        RegistrationGateway newReg = findByStudentIdAndCourseId(pRegistration.getStudentID(), pRegistration.getCourseID(), ResultSet.CONCUR_UPDATABLE);
-        pRegistration.setRegistrationID(newReg.getRegistrationID());
-
-        connection.Close();
+        registrationMapper.insert(pRegistration);
     }
 
-    public void deleteRegistration(RegistrationGateway pRegistration)
+    public void deleteRegistration(Registration pRegistration)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM Registrations WHERE registrationID = " + pRegistration.getRegistrationID() + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        registrationMapper.delete(pRegistration);
     }
 
     public void deleteRegistrationById(int pRegistrationId)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM Registrations WHERE registrationID = " + pRegistrationId + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        registrationMapper.deleteRegistrationById(pRegistrationId);
     }
 
     public void deleteRegistrationByStudentAndCourseId(int pStudentId, int pCourseId)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM Registrations WHERE studentID = " + pStudentId + " AND courseID = " + pCourseId + " ;";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        registrationMapper.deleteRegistrationByStudentAndCourseId(pStudentId, pCourseId);
     }
 }

@@ -1,118 +1,51 @@
 package assignment.team._387a2.tableGateways;
 
-import assignment.team._387a2.DataMapper;
-import assignment.team._387a2.helperObjects.SQLConnection;
-import assignment.team._387a2.rowGateways.PersonGateway;
-import assignment.team._387a2.rowGateways.StudentGateway;
+import assignment.team._387a2.mappers.StudentMapper;
+import assignment.team._387a2.domainObjects.Student;
 
-import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class StudentTableGateway
 {
+    private StudentMapper studentMapper;
+
     public StudentTableGateway()
     {
+        studentMapper = new StudentMapper();
     }
 
-    public StudentGateway findById(int pId, int concurrencyValue)
+    public Student findById(int pId)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM Student WHERE studentID = " + pId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery, concurrencyValue);
-
-        List<StudentGateway> students = DataMapper.ConvertToStudents(result);
-
-        StudentGateway student = students == null || students.size() == 0 ? null : students.get(0);
-
-        connection.Close();
-
-        return student;
+        return studentMapper.find(pId);
     }
 
-    public StudentGateway findByPersonId(int pId, int concurrencyValue)
+    public Student findByPersonId(int pId, int concurrencyValue)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM Student WHERE personID = " + pId + ";";
-
-        ResultSet result = connection.ExecuteQuery(findQuery, concurrencyValue);
-
-        List<StudentGateway> students = DataMapper.ConvertToStudents(result);
-
-        StudentGateway student = students == null || students.size() == 0 ? null : students.get(0);
-
-        connection.Close();
-
-        return student;
+        return studentMapper.findByPersonId(pId, concurrencyValue);
     }
 
-    public List<StudentGateway> getAll()
+    public List<Student> getAll()
     {
-        SQLConnection connection = new SQLConnection();
-
-        String findQuery = "SELECT * FROM Student;";
-
-        ResultSet result = connection.ExecuteQuery(findQuery);
-
-        List<StudentGateway> students = DataMapper.ConvertToStudents(result);
-
-        connection.Close();
-
-        return students;
+        return studentMapper.getAllStudents();
     }
 
-    public void updateStudent(StudentGateway pStudent)
+    public void updateStudent(Student pStudent)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String updateQuery = "UPDATE Student " +
-                "SET personId = " + pStudent.getPersonId() +
-                " WHERE studentID = " + Integer.toString(pStudent.getStudentId()) + ";";
-
-        connection.ExecuteNoReturn(updateQuery);
-
-        connection.Close();
+        studentMapper.update(pStudent);
     }
 
-    public void insertStudent(StudentGateway pStudent)
+    public void insertStudent(Student pStudent)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String insertQuery = "INSERT INTO Student(personID) " +
-                "VALUES (" + pStudent.getPersonId() + ");";
-
-        connection.ExecuteNoReturn(insertQuery);
-
-        // Updating person ID to the proper value.
-        StudentGateway newStudent = findByPersonId(pStudent.getPersonId(), ResultSet.CONCUR_UPDATABLE);
-        pStudent.setStudentId(newStudent.getStudentId());
-
-        connection.Close();
+        studentMapper.insert(pStudent);
     }
 
-    public void deleteStudent(StudentGateway pStudent)
+    public void deleteStudent(Student pStudent)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM Student WHERE studentID = " + pStudent.getStudentId() + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        studentMapper.delete(pStudent);
     }
 
     public void deleteStudentById(int pStudentID)
     {
-        SQLConnection connection = new SQLConnection();
-
-        String deleteQuery = "DELETE FROM Student WHERE studentID = " + pStudentID + ";";
-
-        connection.ExecuteNoReturn(deleteQuery);
-
-        connection.Close();
+        studentMapper.deleteStudentById(pStudentID);
     }
 }
