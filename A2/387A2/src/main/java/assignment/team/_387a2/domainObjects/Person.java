@@ -1,8 +1,8 @@
-package assignment.team._387a2.rowGateways;
+package assignment.team._387a2.domainObjects;
 
 import java.util.Date;
 
-public class PersonGateway
+public class Person extends DomainObject
 {
     private int personId;
     private String firstName;
@@ -13,7 +13,7 @@ public class PersonGateway
     private String phoneNumber;
     private Date dateOfBirth;
 
-    public PersonGateway()
+    public Person()
     {
         this.personId = -1;
         this.firstName = "";
@@ -25,7 +25,7 @@ public class PersonGateway
         this.dateOfBirth = new Date();
     }
 
-    public PersonGateway(int personId, String firstName, String lastName, String password, String address, String email, String phoneNumber, Date dateOfBirth) {
+    public Person(int personId, String firstName, String lastName, String password, String address, String email, String phoneNumber, Date dateOfBirth) {
         this.personId = personId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,6 +34,11 @@ public class PersonGateway
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public int getId() {
+        return getPersonId();
     }
 
     public int getPersonId() {

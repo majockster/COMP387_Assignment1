@@ -1,10 +1,9 @@
-package assignment.team._387a2.rowGateways;
+package assignment.team._387a2.domainObjects;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CourseGateway
+public class Course extends DomainObject
 {
     int courseID;
     String courseCode;
@@ -14,7 +13,7 @@ public class CourseGateway
     Date startDate;
     Date endDate;
 
-    public CourseGateway()
+    public Course()
     {
         courseID = -1;
         courseCode = "";
@@ -30,7 +29,7 @@ public class CourseGateway
         endDate = calendar.getTime();
     }
 
-    public CourseGateway(int courseID, String courseCode, String title, String semester, String instructor, Date startDate, Date endDate) {
+    public Course(int courseID, String courseCode, String title, String semester, String instructor, Date startDate, Date endDate) {
         this.courseID = courseID;
         this.courseCode = courseCode;
         this.title = title;
@@ -38,6 +37,10 @@ public class CourseGateway
         this.instructor = instructor;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public int getId() {
+        return getCourseID();
     }
 
     public int getCourseID() {

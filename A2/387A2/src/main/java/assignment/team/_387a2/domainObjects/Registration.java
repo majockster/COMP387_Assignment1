@@ -1,11 +1,11 @@
-package assignment.team._387a2.rowGateways;
+package assignment.team._387a2.domainObjects;
 
-public class RegistrationGateway {
+public class Registration extends DomainObject {
     int registrationID;
     int studentID;
     int courseID;
 
-    public RegistrationGateway()
+    public Registration()
     {
         registrationID = -1;
         studentID = -1;
@@ -13,10 +13,14 @@ public class RegistrationGateway {
     }
 
 
-    public RegistrationGateway(int registrationID, int studentID, int courseID) {
+    public Registration(int registrationID, int studentID, int courseID) {
         this.registrationID = registrationID;
         this.studentID = studentID;
         this.courseID = courseID;
+    }
+
+    public int getId() {
+        return getRegistrationID();
     }
 
     public int getRegistrationID() {

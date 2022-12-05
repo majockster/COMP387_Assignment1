@@ -1,6 +1,6 @@
-package assignment.team._387a2.rowGateways;
+package assignment.team._387a2.domainObjects;
 
-public class CourseTimeGateway
+public class CourseTime extends DomainObject
 {
     int courseTimeID;
     int courseID;
@@ -38,7 +38,7 @@ public class CourseTimeGateway
         this.room = room;
     }
 
-    public CourseTimeGateway()
+    public CourseTime()
     {
         courseTimeID = -1;
         courseID = -1;
@@ -50,7 +50,7 @@ public class CourseTimeGateway
     }
 
 
-    public CourseTimeGateway(int courseTimeID, int courseID, String startTime, String endTime, String day, String section, String room) {
+    public CourseTime(int courseTimeID, int courseID, String startTime, String endTime, String day, String section, String room) {
         this.courseTimeID = courseTimeID;
         this.courseID = courseID;
         this.startTime = startTime;
@@ -58,6 +58,10 @@ public class CourseTimeGateway
         this.day = day;
         this.section = section;
         this.room = room;
+    }
+
+    public int getId() {
+        return getCourseTimeID();
     }
 
     public int getCourseTimeID() {
