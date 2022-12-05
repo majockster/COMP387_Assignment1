@@ -6,8 +6,8 @@
 <%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Student" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <!DOCTYPE html>
 	<html>
 
@@ -59,7 +59,7 @@
 
 		<div class="container-fluid">
 			<div class="jumbotron text-center title">
-				<h1>Welcome <%= cookies.get("firstName").getValue() %>> <%= cookies.get("lastName").getValue() %></h1>
+				<h1>Welcome <%= cookies.get("firstName").getValue() %> <%= cookies.get("lastName").getValue() %></h1>
 			</div>
 		</div>
 
@@ -81,11 +81,11 @@
 		// Retrieve student object of connected student
 		int studentPersonId = Integer.parseInt(cookies.get("personID").getValue());
 
-		StudentGateway student = studentTable.findByPersonId(studentPersonId, ResultSet.CONCUR_READ_ONLY);
+		Student student = studentTable.findByPersonId(studentPersonId, ResultSet.CONCUR_READ_ONLY);
 
 		// Select available courses to drop.
 		// Essentially, all courses that the student is registered to.
-		List<CourseGateway> droppableResult = courseTable.getCoursesByStudentId(student.getStudentId());
+		List<Course> droppableResult = courseTable.getCoursesByStudentId(student.getId());
 
 		// Query registered courses
 		if (droppableResult == null)
@@ -126,7 +126,7 @@
 											</tr>
 				<%
 				// Loop over the rows returned, showing them in a table.
-				for (CourseGateway course : droppableResult)
+				for (Course course : droppableResult)
 				{
 					%>
 						<tr>

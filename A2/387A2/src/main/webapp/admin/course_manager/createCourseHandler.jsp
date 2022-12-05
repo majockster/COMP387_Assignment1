@@ -1,10 +1,11 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseTimeGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.CourseTime" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTimeTableGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.CourseTime" %>
 <%@ include file="../checkIfAdmin.jsp"%>
 <%!
     // Function to extract days for course times
@@ -62,11 +63,11 @@
 
 
     // Inserting the courses
-    CourseGateway cg = new CourseGateway(-1, courseCode, courseTitle, courseSemester, courseInstructor, courseStartDate,
+    Course cg = new Course(-1, courseCode, courseTitle, courseSemester, courseInstructor, courseStartDate,
             courseEndDate);
     CourseTableGateway courseTableGateway = new CourseTableGateway();
     courseTableGateway.insertCourse(cg);
-    int courseId = cg.getCourseID();
+    int courseId = cg.getId();
 
 
     // Inserting the course times
@@ -74,44 +75,44 @@
     for(int i = 0; i < numberOfTimes; i++){
         Integer intI = Integer.valueOf(i);
         if(mondays.contains(intI)){
-            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+            CourseTime courseTime = new CourseTime(-1, courseId, courseStartTimes[i],
                     courseEndTimes[i],
                     "monday",
                     courseSection[i],
                     courseRoom[i]);
-            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+            courseTimeTableGateway.insertCourseTime(courseTime);
         }
         if(tuesdays.contains(intI)){
-            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+            CourseTime courseTime = new CourseTime(-1, courseId, courseStartTimes[i],
                     courseEndTimes[i],
                     "tuesday",
                     courseSection[i],
                     courseRoom[i]);
-            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+            courseTimeTableGateway.insertCourseTime(courseTime);
         }
         if(wednesdays.contains(intI)){
-            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+            CourseTime courseTime = new CourseTime(-1, courseId, courseStartTimes[i],
                     courseEndTimes[i],
                     "wednesday",
                     courseSection[i],
                     courseRoom[i]);
-            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+            courseTimeTableGateway.insertCourseTime(courseTime);
         }
         if(thursdays.contains(intI)){
-            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+            CourseTime courseTime = new CourseTime(-1, courseId, courseStartTimes[i],
                     courseEndTimes[i],
                     "thursday",
                     courseSection[i],
                     courseRoom[i]);
-            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+            courseTimeTableGateway.insertCourseTime(courseTime);
         }
         if(fridays.contains(intI)){
-            CourseTimeGateway courseTimeGateway = new CourseTimeGateway(-1, courseId, courseStartTimes[i],
+            CourseTime courseTime = new CourseTime(-1, courseId, courseStartTimes[i],
                     courseEndTimes[i],
                     "friday",
                     courseSection[i],
                     courseRoom[i]);
-            courseTimeTableGateway.insertCourseTime(courseTimeGateway);
+            courseTimeTableGateway.insertCourseTime(courseTime);
         }
     }
 %>

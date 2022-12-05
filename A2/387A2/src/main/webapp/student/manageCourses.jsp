@@ -6,12 +6,12 @@
 <%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Student" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <%@ page import="assignment.team._387a2.dataObjects.SemesterCourses" %>
 <%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="assignment.team._387a2.rowGateways.RegistrationGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Registration" %>
 <%@ page import="assignment.team._387a2.tableGateways.RegistrationTableGateway" %>
 
 <!DOCTYPE html>
@@ -79,7 +79,7 @@
 	RegistrationTableGateway registrationTable = new RegistrationTableGateway();
 
 	// Loading student gateway
-	StudentGateway student = studentTable.findByPersonId(Integer.parseInt(cookies.get("personID").getValue()), ResultSet.CONCUR_UPDATABLE);
+	Student student = studentTable.findByPersonId(Integer.parseInt(cookies.get("personID").getValue()), ResultSet.CONCUR_UPDATABLE);
 
 
 	// Check if we clicked a button
@@ -125,7 +125,7 @@
 				{
 					// Verify business logic rules:
 					// A student can add a course up to one week after the start of the semester
-					CourseGateway courseDetails = courseTable.findById(Integer.parseInt(courseId), ResultSet.CONCUR_UPDATABLE);
+					Course courseDetails = courseTable.findById(Integer.parseInt(courseId));
 
 
 
@@ -162,7 +162,7 @@
 						else
 						{
 							// We execute an add query before displaying the page.
-							RegistrationGateway registration = new RegistrationGateway(-1, student.getStudentId(), Integer.parseInt(courseId));
+							Registration registration = new Registration(-1, student.getId(), Integer.parseInt(courseId));
 							registrationTable.insertRegistration(registration);
 							%>
 							<div class="container-fluid">
@@ -186,7 +186,7 @@
 		else if (action.equals("Drop"))
 		{
 			// We execute a drop query before displaying the page.
-			registrationTable.deleteRegistrationByStudentAndCourseId(student.getStudentId(), Integer.parseInt(courseId));
+			registrationTable.deleteRegistrationByStudentAndCourseId(student.getId(), Integer.parseInt(courseId));
 			%>
 			<div class="container-fluid">
 				<div class="row">
@@ -222,7 +222,7 @@
 
 
 		// Query available courses
-		List<CourseGateway> availableCourses = courseTable.getCoursesAvailableToStudent(student.getStudentId());
+		List<Course> availableCourses = courseTable.getCoursesAvailableToStudent(student.getId());
 		if (availableCourses.size() > 0)
 		{
 			%>
@@ -244,7 +244,7 @@
 							</tr>
 							<%
 							// Loop over the rows returned, showing them in a table.
-							for(CourseGateway course : availableCourses)
+							for(Course course : availableCourses)
 							{
 								%>
 								<tr>
@@ -258,7 +258,7 @@
 									<td>
 										<form class="justify-content-center text-center" method="post" action="">
 											<input class="btn btn-primary" type="submit" name="action" value="Add"/>
-											<input type="hidden" name="courseId" value="<%= course.getCourseID() %>"/>
+											<input type="hidden" name="courseId" value="<%= course.getId() %>"/>
 											<input type="hidden" name="semester" value="<%= course.getSemester() %>"/>
 										</form>
 									</td>
@@ -310,7 +310,7 @@
 	<%
 	// Select available courses to drop.
 	// Essentially, all courses that the student is registered to.
-	List<CourseGateway> droppable = courseTable.getCoursesByPersonId(student.getPersonId());
+	List<Course> droppable = courseTable.getCoursesByPersonId(student.getPersonId());
 
 	// Query registered courses
 		if (droppable.size() > 0)
@@ -333,7 +333,7 @@
 							</tr>
 							<%
 						// Loop over the rows returned, showing them in a table.
-						for(CourseGateway course : droppable)
+						for(Course course : droppable)
 						{
 							%>
 							<tr>
@@ -347,7 +347,7 @@
 								<td>
 									<form class="justify-content-center text-center" method="post" action="">
 										<input class="btn btn-primary" type="submit" name="action" value="Drop"/>
-										<input type="hidden" name="courseId" value="<%= course.getCourseID() %>"/>
+										<input type="hidden" name="courseId" value="<%= course.getId() %>"/>
 										<input type="hidden" name="semester" value="<%= course.getSemester() %>"/>
 									</form>
 								</td>

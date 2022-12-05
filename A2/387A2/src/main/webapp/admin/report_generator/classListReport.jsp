@@ -6,12 +6,12 @@
 <%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Student" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <%@ page import="assignment.team._387a2.dataObjects.SemesterCourses" %>
 <%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="assignment.team._387a2.rowGateways.RegistrationGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Registration" %>
 <%@ page import="assignment.team._387a2.tableGateways.RegistrationTableGateway" %>
 
 <!DOCTYPE html>
@@ -65,7 +65,7 @@
         </div>
     </div>
     <% 
-        List<StudentGateway> getStudentList = studentTable.getAll();
+        List<Student> getStudentList = studentTable.getAll();
         if (getStudentList.size() > 0)
         {
     %>
@@ -81,11 +81,11 @@
                         <th>Last Name</th>
                         <th></th>
                         <% 
-                            for (StudentGateway student : getStudentList)
+                            for (Student student : getStudentList)
                             {
                         %>
                             <tr>
-                                <td><%= student.getStudentId()%></td>
+                                <td><%= student.getId()%></td>
                                 <td><%= personTable.findById(student.getPersonId()).getFirstName()%></td>
                                 <td><%= personTable.findById(student.getPersonId()).getLastName()%></td>
                                 <td>
@@ -98,7 +98,7 @@
                                         <input 
                                         type="hidden" 
                                         name="studentId" 
-                                        value="<%= student.getStudentId()%>"/>
+                                        value="<%= student.getId()%>"/>
                                         <input 
                                         type="hidden" 
                                         name="firstName" 
@@ -147,7 +147,7 @@
         if ((action != null && !action.isEmpty()) &&
             (studentId != -1))
         {
-            List<CourseGateway> getClassListFromStudent = courseTable.getCoursesByStudentId(studentId);
+            List<Course> getClassListFromStudent = courseTable.getCoursesByStudentId(studentId);
 
             if (getClassListFromStudent.size() > 0){
     %>
@@ -155,7 +155,7 @@
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
-                <h2>List of classes enrolled for student: <%=personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getFirstName() %> <%= personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getLastName()%></h2><br />
+                <h2>List of classes enrolled for student: <%=personTable.findById(studentTable.findById(studentId).getPersonId()).getFirstName() %> <%= personTable.findById(studentTable.findById(studentId).getPersonId()).getLastName()%></h2><br />
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -173,7 +173,7 @@
                     <th>Instructor</th>
                     <th></th>
     <%
-                for (CourseGateway course : getClassListFromStudent)
+                for (Course course : getClassListFromStudent)
                 {
     %>
                     <tr>
@@ -199,7 +199,7 @@
         <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <h3>The student <%= personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getFirstName()%> <%= personTable.findById(studentTable.findById(studentId, ResultSet.CONCUR_READ_ONLY).getPersonId()).getLastName()%> is not enrolled in any classes.</h3>
+                <h3>The student <%= personTable.findById(studentTable.findById(studentId).getPersonId()).getFirstName()%> <%= personTable.findById(studentTable.findById(studentId).getPersonId()).getLastName()%> is not enrolled in any classes.</h3>
                 <br />
             </div>
             <div class="col-sm-4"></div>

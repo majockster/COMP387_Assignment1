@@ -1,6 +1,6 @@
 package assignment.team._387a2;
 
-import assignment.team._387a2.rowGateways.PersonGateway;
+import assignment.team._387a2.domainObjects.Person;
 import assignment.team._387a2.tableGateways.PersonTableGateway;
 
 import java.io.*;
@@ -21,7 +21,7 @@ public class HelloServlet extends HttpServlet {
 
         PersonTableGateway table = new PersonTableGateway();
 
-        PersonGateway person = table.findById(1);
+        Person person = table.findById(1);
         message += person.getFirstName() + person.getLastName();
         // Hello
         PrintWriter out = response.getWriter();

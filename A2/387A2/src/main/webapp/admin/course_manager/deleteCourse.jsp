@@ -1,6 +1,6 @@
 <%@ page import="assignment.team._387a2.helperObjects.SQLConnection" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -84,7 +84,7 @@
     String semester = request.getParameter("semester");
 
     // Select deletable courses
-    List<CourseGateway> deletable = courseTable.getAll();
+    List<Course> deletable = courseTable.getAll();
 
     // Check if we clicked a button
     if ((action != null && !action.isEmpty()) &&
@@ -138,7 +138,7 @@
                 </tr>
                 <%
                     // Loop over the rows returned, showing them in a table.
-                    for (CourseGateway course : deletable) {
+                    for (Course course : deletable) {
                 %>
                 <tr>
                     <td><%= course.getCourseCode() %>
@@ -157,7 +157,7 @@
                     <td>
                         <form class="justify-content-center text-center" method="post" action="">
                             <input class="btn btn-primary" type="submit" name="action" value="Delete"/>
-                            <input type="hidden" name="courseId" value="<%= course.getCourseID() %>"/>
+                            <input type="hidden" name="courseId" value="<%= course.getId() %>"/>
                             <input type="hidden" name="semester" value="<%= course.getSemester() %>"/>
                         </form>
                     </td>

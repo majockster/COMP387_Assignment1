@@ -6,8 +6,8 @@
 <%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Student" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <!DOCTYPE html">
 <html>
 

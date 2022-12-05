@@ -6,12 +6,12 @@
 <%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Student" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <%@ page import="assignment.team._387a2.dataObjects.SemesterCourses" %>
 <%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="assignment.team._387a2.rowGateways.RegistrationGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Registration" %>
 <%@ page import="assignment.team._387a2.tableGateways.RegistrationTableGateway" %>
 
 <!DOCTYPE html>
@@ -65,7 +65,7 @@
         </div>
     </div>
     <%
-        List<CourseGateway> getAllCourses = courseTable.getAll();
+        List<Course> getAllCourses = courseTable.getAll();
         if (getAllCourses.size() > 0)
         {
     %>
@@ -83,11 +83,11 @@
                         <th>Instructor</th>
                         <th></th>
                         <%
-                            for (CourseGateway course : getAllCourses)
+                            for (Course course : getAllCourses)
                             {    
                         %>
                             <tr>
-                                <td><%=course.getCourseID()%></td>
+                                <td><%=course.getId()%></td>
                                 <td><%=course.getCourseCode()%></td>
                                 <td><%=course.getTitle()%></td>
                                 <td><%=course.getSemester()%></td>
@@ -102,7 +102,7 @@
                                         <input 
                                         type="hidden" 
                                         name="courseId" 
-                                        value="<%=course.getCourseID()%>"/>
+                                        value="<%=course.getId()%>"/>
                                         <input 
                                         type="hidden" 
                                         name="courseCode" 
@@ -151,7 +151,7 @@
             (courseId != -1) &&
             (courseCode != null && !courseCode.isEmpty()))
         {
-            List<StudentGateway> getStudentListFromCourse = courseTable.getStudentListByCourseId(courseId);
+            List<Student> getStudentListFromCourse = courseTable.getStudentListByCourseId(courseId);
 
             if (getStudentListFromCourse.size() > 0)
             {
@@ -176,11 +176,11 @@
                     <th>Last Name</th>
                     <th></th>
                     <%
-                        for (StudentGateway student : getStudentListFromCourse)
+                        for (Student student : getStudentListFromCourse)
                         {
                     %>
                     <tr>
-                    <td><%= student.getStudentId()%></td>
+                    <td><%= student.getId()%></td>
                     <td><%= personTable.findById(student.getPersonId()).getFirstName()%></td>
                     <td><%= personTable.findById(student.getPersonId()).getLastName()%></td>
                     <%

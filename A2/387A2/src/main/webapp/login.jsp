@@ -6,13 +6,13 @@
 <%@ page import="assignment.team._387a2.helperObjects.CookieHelper" %>
 <%@ page import="assignment.team._387a2.tableGateways.CourseTableGateway" %>
 <%@ page import="assignment.team._387a2.tableGateways.StudentTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.StudentGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.CourseGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Student" %>
+<%@ page import="assignment.team._387a2.domainObjects.Course" %>
 <%@ page import="static java.lang.Integer.parseInt" %>
 <%@ page import="assignment.team._387a2.tableGateways.PersonTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.PersonGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Person" %>
 <%@ page import="assignment.team._387a2.tableGateways.AdministratorTableGateway" %>
-<%@ page import="assignment.team._387a2.rowGateways.AdministratorGateway" %>
+<%@ page import="assignment.team._387a2.domainObjects.Administrator" %>
 
 
 <%
@@ -24,7 +24,7 @@
 		String password = request.getParameter("password");
 
 		PersonTableGateway ptg = new PersonTableGateway();
-		PersonGateway person = ptg.findByEmail(email);
+		Person person = ptg.findByEmail(email);
 		if (person != null)
 		{
 
@@ -32,12 +32,12 @@
 			{
 
 				AdministratorTableGateway atg = new AdministratorTableGateway();
-				AdministratorGateway admin = atg.findByPersonId(person.getPersonId());
+				Administrator admin = atg.findByPersonId(person.getPersonId());
 
 				if (admin == null)
 				{
 					StudentTableGateway stg = new StudentTableGateway();
-					StudentGateway student = stg.findByPersonId(person.getPersonId(), ResultSet.CONCUR_READ_ONLY);
+					Student student = stg.findByPersonId(person.getPersonId(), ResultSet.CONCUR_READ_ONLY);
 
 					Cookie personID = new Cookie("personID", String.valueOf(student.getPersonId()));
 					Cookie firstName = new Cookie("firstName", student.getFirstName());
