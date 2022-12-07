@@ -28,6 +28,10 @@ public class Administrator extends Person
         return super.getId();
     }
 
+    public String getFirstName() { return super.getFirstName(); }
+
+    public String getLastName() { return super.getLastName(); }
+
     public int getEmploymentID()
     {
         return employmentID;

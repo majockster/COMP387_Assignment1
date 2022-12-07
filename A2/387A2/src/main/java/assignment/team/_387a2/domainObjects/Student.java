@@ -24,6 +24,13 @@ public class Student extends Person
         return getStudentId();
     }
 
+    public int getPersonID() {
+        return super.getId();
+    }
+
+    public String getFirstName() { return super.getFirstName(); }
+
+    public String getLastName() { return super.getLastName(); }
 
     public int getStudentId()
     {

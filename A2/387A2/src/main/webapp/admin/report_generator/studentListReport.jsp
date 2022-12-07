@@ -181,8 +181,8 @@
                     %>
                     <tr>
                     <td><%= student.getId()%></td>
-                    <td><%= personTable.findById(student.getPersonId()).getFirstName()%></td>
-                    <td><%= personTable.findById(student.getPersonId()).getLastName()%></td>
+                    <td><%= student.getFirstName()%></td>
+                    <td><%= student.getLastName()%></td>
                     <%
                         }
                     %>
